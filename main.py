@@ -26,9 +26,16 @@ print(len(edmonton_jobs))
 print(edmonton_jobs[0]["title"])
 
 
+def filter_by_min_salary(jobs, minimum_salary):
+    salary_selected_list = []
+    for job in jobs:
+        if minimum_salary <= job["salary_min"]:
+            salary_selected_list.append(job)
+    return salary_selected_list
+minsalary_jobs = filter_by_min_salary(jobs, minimum_salary=65000)
 
-
-
+print(len(minsalary_jobs))
+print(minsalary_jobs[0]["title"])
 
 
 
