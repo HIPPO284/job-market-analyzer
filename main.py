@@ -2,6 +2,20 @@ print("hello hippo")
 print("Job Market Analyzer")
 
 from jobs_data import jobs
+
+user_preferences = {
+    "locations": ["Edmonton", "Calgary", "Canada Remote"],
+    "minimum_salary": 60000,
+    "skills": {"python", "java", "git"},
+    "preferred_roles": [
+        "software developer",
+        "data analyst",
+        "qa automation"
+    ],
+    "workplace_types": ["remote", "hybrid"],
+    "employment_types": ["internship", "full_time", "part_time"],
+}
+
 print(len(jobs))
 print(jobs[0]["title"])
 
