@@ -26,6 +26,16 @@ def print_job(job):
 
 print_job(jobs[0])
 
+def filter_by_multiple_locations(jobs, locations):
+    location_selected_list = []
+
+    for job in jobs:
+        for location in locations:
+            if location.lower() in job["location"].lower():
+                location_selected_list.append(job)
+                break
+
+    return location_selected_list
 
 def filter_by_location(jobs, location):
     location_selected_list = []
@@ -51,23 +61,32 @@ min_salary_jobs = filter_by_min_salary(jobs, minimum_salary=65000)
 print(len(min_salary_jobs))
 print(min_salary_jobs[0]["title"])
 
-def location_min_salary_combine(jobs, location, minimum_salary):
+def location_min_salary_combine(jobs, locations, minimum_salary):
     min_salary_jobs = filter_by_min_salary(jobs, minimum_salary)
-    location_salary_jobs = filter_by_location(min_salary_jobs, location)
+    location_salary_jobs = filter_by_multiple_locations(
+        min_salary_jobs,
+        locations
+    )
+
     return location_salary_jobs
 
-location_salary_jobs = location_min_salary_combine(jobs, "Calgary", minimum_salary=6000)
+print(user_preferences["locations"][0])
+print(user_preferences["minimum_salary"])
+print("python" in user_preferences["skills"])
+
+
+
+
+location_salary_jobs = location_min_salary_combine(
+    jobs,
+    user_preferences["locations"],
+    user_preferences["minimum_salary"]
+)
+
 print(len(location_salary_jobs))
 
-
-
-
-
-
-
-
-
-
+for job in location_salary_jobs:
+    print(job["id"], job["title"])
 
 
 
