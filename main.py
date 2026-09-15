@@ -32,10 +32,35 @@ def filter_by_min_salary(jobs, minimum_salary):
         if minimum_salary <= job["salary_min"]:
             salary_selected_list.append(job)
     return salary_selected_list
-minsalary_jobs = filter_by_min_salary(jobs, minimum_salary=65000)
+min_salary_jobs = filter_by_min_salary(jobs, minimum_salary=65000)
 
-print(len(minsalary_jobs))
-print(minsalary_jobs[0]["title"])
+print(len(min_salary_jobs))
+print(min_salary_jobs[0]["title"])
+
+def location_min_salary_combine(jobs, location, minimum_salary):
+    min_salary_jobs = filter_by_min_salary(jobs, minimum_salary)
+    location_salary_jobs = filter_by_location(min_salary_jobs, location)
+    return location_salary_jobs
+
+location_salary_jobs = location_min_salary_combine(jobs, "Calgary", minimum_salary=6000)
+print(len(location_salary_jobs))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
