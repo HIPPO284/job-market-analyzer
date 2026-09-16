@@ -198,13 +198,24 @@ recommendations = generate_recommendations(jobs,user_preferences)
 
 sorted_recommendations = sort_recommendations(recommendations)
 
-for recommendation in sorted_recommendations:
-    print(recommendation["job_id"],recommendation["title"],recommendation["skill_match_score"])
+#for recommendation in sorted_recommendations:
+#    print(recommendation["job_id"],recommendation["title"],recommendation["skill_match_score"])
+
+def print_recommendation(recommendation):
+    for key, value in recommendation.items():
+        print(f"{key}: {value} ")
+    print(f"\n")
+
+def print_recommendations(recommendations):
+    for recommendation in recommendations:
+        print_recommendation(recommendation)
 
 
 
+recommendations = generate_recommendations(jobs, user_preferences)
+sorted_recommendations = sort_recommendations(recommendations)
 
-
+print_recommendations(sorted_recommendations)
 
 
 
