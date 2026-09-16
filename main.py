@@ -201,21 +201,50 @@ sorted_recommendations = sort_recommendations(recommendations)
 #for recommendation in sorted_recommendations:
 #    print(recommendation["job_id"],recommendation["title"],recommendation["skill_match_score"])
 
+recommendations = generate_recommendations(jobs, user_preferences)
+sorted_recommendations = sort_recommendations(recommendations)
+
+#print_recommendations(sorted_recommendations)
+
 def print_recommendation(recommendation):
-    for key, value in recommendation.items():
-        print(f"{key}: {value} ")
-    print(f"\n" )
+    print("-" * 50)
+
+    basic_fields = [
+        ("Job ID", "job_id"),
+        ("Title", "title"),
+        ("Company", "company"),
+        ("Location", "location"),
+        ("Workplace Type", "workplace_type"),
+        ("Employment Type", "employment_type"),
+    ]
+
+    for label, key in basic_fields:
+        print(f"{label}: {recommendation[key]}")
+
+    print(f"Salary Range: ${recommendation['salary_min']:,} - ${recommendation['salary_max']:,}")
+    print(f"Skill Match Score: {recommendation['skill_match_score']}%")
+    print(f"Matched Required Skills: {format_skills(recommendation['matched_skills'])}")
+    print(f"Missing Required Skills: {format_skills(recommendation['missing_skills'])}")
+    print(f"Preferred Skills: {format_skills(recommendation['preferred_skills'])}")
+    print("-" * 50)
+
+
+def format_skills(skills):
+    if not skills:
+        return "None"
+    sorted_skills = sorted(skills)
+    skills_text = ", ".join(sorted_skills)
+    return skills_text
+
+
 
 def print_recommendations(recommendations):
     for recommendation in recommendations:
         print_recommendation(recommendation)
 
+print_recommendations(recommendations)
 
 
-recommendations = generate_recommendations(jobs, user_preferences)
-sorted_recommendations = sort_recommendations(recommendations)
-
-print_recommendations(sorted_recommendations)
 
 
 
