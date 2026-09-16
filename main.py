@@ -204,7 +204,7 @@ sorted_recommendations = sort_recommendations(recommendations)
 def print_recommendation(recommendation):
     for key, value in recommendation.items():
         print(f"{key}: {value} ")
-    print(f"\n")
+    print(f"\n" )
 
 def print_recommendations(recommendations):
     for recommendation in recommendations:
