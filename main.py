@@ -3,22 +3,63 @@ print("Job Market Analyzer")
 
 from jobs_data import jobs
 
-user_preferences = {
-    "locations": ["Edmonton", "Calgary", "Canada Remote"],
-    "minimum_salary": 60000,
-    "skills": {"python", "java", "git"},
-    "preferred_roles": [
-        "software developer",
-        "data analyst",
-        "qa automation"
-    ],
-    "experience_levels": ["internship", "entry"],
-    "workplace_types": ["remote", "hybrid"],
-    "employment_types": ["internship", "full_time", "part_time"],
-}
+#user_preferences = {
+#    "locations": ["Edmonton", "Calgary", "Canada Remote"],
+#    "minimum_salary": 60000,
+#    "skills": {"python", "java", "git"},
+#    "experience_levels": ["internship", "entry"],
+#    "workplace_types": ["remote", "hybrid"],
+#    "employment_types": ["internship", "full_time", "part_time"],
+#}
+def clean_text_list(text):
+    cleaned_items = []
+    for item in text.split(","):
+        clean_item = item.strip().lower()
+        if clean_item:
+            cleaned_items.append(clean_item)
+    return cleaned_items
 
-print(len(jobs))
-print(jobs[0]["title"])
+def get_valid_minimum_salary():
+    while True:
+        salary_text = input("Enter minimum salary: ")
+        try:
+            cleaned_salary_text = salary_text.strip().replace(",", "").replace(".", "")
+            cleaned_salary_text = cleaned_salary_text.replace(" ", "")
+            minimum_salary = int(cleaned_salary_text)
+            if minimum_salary < 0:
+                print("Salary cannot be negative. Please try again.")
+                continue
+            return minimum_salary
+        except ValueError:
+            print("Please enter a whole number, for example: 60000.")
+
+def get_user_preferences():
+    locations_text = input("Enter locations, separated by commas: ")
+    skills_text = input("Enter skills: ")
+    experience_levels_text = input("Enter experience levels: ")
+    workplace_types_text = input("Enter workplace types: ")
+    employment_types_text = input("Enter employment types: ")
+    locations = clean_text_list(locations_text)
+    minimum_salary = get_valid_minimum_salary()
+    skills = set(clean_text_list(skills_text))
+    experience_levels = clean_text_list(experience_levels_text)
+    workplace_types = clean_text_list(workplace_types_text)
+    employment_types = clean_text_list(employment_types_text)
+    user_preferences = {
+        "locations": locations,
+        "minimum_salary": minimum_salary,
+        "skills": skills,
+        "experience_levels": experience_levels,
+        "workplace_types": workplace_types,
+        "employment_types": employment_types,
+    }
+    return user_preferences
+
+user_preferences = get_user_preferences()
+
+
+#print(len(jobs))
+#print(jobs[0]["title"])
 
 def filter_by_workplace_types(jobs, workplace_types):
     workplace_selected_jobs = []
@@ -45,7 +86,7 @@ def print_job(job):
     for key,value in job.items():
         print(f"{key}: {value}")
 
-print_job(jobs[0])
+#print_job(jobs[0])
 
 def filter_by_multiple_locations(jobs, locations):
     location_selected_list = []
@@ -67,8 +108,8 @@ def filter_by_location(jobs, location):
 
 edmonton_jobs = filter_by_location(jobs, location="Edmonton")
 
-print(len(edmonton_jobs))
-print(edmonton_jobs[0]["title"])
+#print(len(edmonton_jobs))
+#print(edmonton_jobs[0]["title"])
 
 
 def filter_by_min_salary(jobs, minimum_salary):
@@ -79,8 +120,8 @@ def filter_by_min_salary(jobs, minimum_salary):
     return salary_selected_list
 min_salary_jobs = filter_by_min_salary(jobs, minimum_salary=65000)
 
-print(len(min_salary_jobs))
-print(min_salary_jobs[0]["title"])
+#print(len(min_salary_jobs))
+#print(min_salary_jobs[0]["title"])
 
 def location_min_salary_combine(jobs, locations, minimum_salary):
     min_salary_jobs = filter_by_min_salary(jobs, minimum_salary)
@@ -91,21 +132,21 @@ def location_min_salary_combine(jobs, locations, minimum_salary):
 
     return location_salary_jobs
 
-print(user_preferences["locations"][0])
-print(user_preferences["minimum_salary"])
-print("python" in user_preferences["skills"])
+#print(user_preferences["locations"][0])
+#print(user_preferences["minimum_salary"])
+#print("python" in user_preferences["skills"])
 
 
-location_salary_jobs = location_min_salary_combine(
-    jobs,
-    user_preferences["locations"],
-    user_preferences["minimum_salary"]
-)
+#location_salary_jobs = location_min_salary_combine(
+#    jobs,
+#    user_preferences["locations"],
+#    user_preferences["minimum_salary"]
+#)
 
-print(len(location_salary_jobs))
+#print(len(location_salary_jobs))
 
-for job in location_salary_jobs:
-    print(job["id"], job["title"])
+#for job in location_salary_jobs:
+#    print(job["id"], job["title"])
 
 def matched_required_skills(job, user_skills):
     required_skills = set(job["required_skills"])
@@ -119,21 +160,21 @@ job_1_matched_skills = matched_required_skills(
     user_preferences["skills"]
 )
 
-print(len(job_1_matched_skills))
-print("python" in job_1_matched_skills)
-print("git" in job_1_matched_skills)
-print("sql" in job_1_matched_skills)
-print(job_1_matched_skills)
+#print(len(job_1_matched_skills))
+#print("python" in job_1_matched_skills)
+#print("git" in job_1_matched_skills)
+#print("sql" in job_1_matched_skills)
+#print(job_1_matched_skills)
 
 def missing_required_skills(job, user_skills):
     required_skills = set(job["required_skills"])
     skill_missing_set = required_skills - user_skills
 
     return skill_missing_set
-print(missing_required_skills(jobs[0], user_preferences["skills"]))
+#print(missing_required_skills(jobs[0], user_preferences["skills"]))
 
-print(missing_required_skills(jobs[4], user_preferences["skills"]))
-print(missing_required_skills(jobs[9], user_preferences["skills"]))
+#print(missing_required_skills(jobs[4], user_preferences["skills"]))
+#print(missing_required_skills(jobs[9], user_preferences["skills"]))
 
 def calculate_skill_match_score(job, user_skills):
     required_skills = set(job["required_skills"])
@@ -143,20 +184,20 @@ def calculate_skill_match_score(job, user_skills):
     score = round(len(matched_skills) / len(required_skills) * 100,2)
     return score
 
-print(f"{calculate_skill_match_score(jobs[0], user_preferences["skills"])} %")
+#print(f"{calculate_skill_match_score(jobs[0], user_preferences["skills"])} %")
 
 
-def build_job_recommendation(job, user_skills):
-    skills_combination = {}
-    skills_combination["job_id"] = job["id"]
-    skills_combination["title"] = job["title"]
-    skills_combination["skill_match_score"] = calculate_skill_match_score(job, user_skills)
-    skills_combination["matched_skills"] = matched_required_skills(job, user_skills)
-    skills_combination["missing_skills"] = missing_required_skills(job, user_skills)
-    return skills_combination
+#def build_job_recommendation(job, user_skills):
+#    skills_combination = {}
+#    skills_combination["job_id"] = job["id"]
+#    skills_combination["title"] = job["title"]
+#    skills_combination["skill_match_score"] = calculate_skill_match_score(job, user_skills)
+#    skills_combination["matched_skills"] = matched_required_skills(job, user_skills)
+#    skills_combination["missing_skills"] = missing_required_skills(job, user_skills)
+#    return skills_combination
 
-job_1_recommendation = build_job_recommendation(jobs[0],user_preferences["skills"])
-print(job_1_recommendation)
+#job_1_recommendation = build_job_recommendation(jobs[0],user_preferences["skills"])
+#print(job_1_recommendation)
 
 def build_job_recommendation(job, user_skills):
     recommendation = {}
@@ -194,9 +235,9 @@ def get_match_score(recommendation):
 def sort_recommendations(recommendations):
     return sorted(recommendations,key=get_match_score,reverse=True)
 
-recommendations = generate_recommendations(jobs,user_preferences)
+#recommendations = generate_recommendations(jobs,user_preferences)
 
-sorted_recommendations = sort_recommendations(recommendations)
+#sorted_recommendations = sort_recommendations(recommendations)
 
 #for recommendation in sorted_recommendations:
 #    print(recommendation["job_id"],recommendation["title"],recommendation["skill_match_score"])
@@ -239,10 +280,14 @@ def format_skills(skills):
 
 
 def print_recommendations(recommendations):
+    if not recommendations:        # recommendations为空列表
+        print("No matching jobs found.")
+        print("Try changing your location, salary, workplace type, or employment type.")
+        return
     for recommendation in recommendations:
         print_recommendation(recommendation)
 
-print_recommendations(recommendations)
+print_recommendations(sorted_recommendations)
 
 
 
