@@ -1,7 +1,10 @@
 print("hello hippo")
 print("Job Market Analyzer")
 
-from jobs_data import jobs
+from database import get_database_connection
+
+from job_repository import get_all_jobs
+jobs = get_all_jobs()
 
 #user_preferences = {
 #    "locations": ["Edmonton", "Calgary", "Canada Remote"],
@@ -11,6 +14,8 @@ from jobs_data import jobs
 #    "workplace_types": ["remote", "hybrid"],
 #    "employment_types": ["internship", "full_time", "part_time"],
 #}
+'''
+
 def clean_text_list(text):
     cleaned_items = []
     for item in text.split(","):
@@ -18,6 +23,7 @@ def clean_text_list(text):
         if clean_item:
             cleaned_items.append(clean_item)
     return cleaned_items
+'''
 
 def get_valid_minimum_salary():
     while True:
@@ -32,7 +38,7 @@ def get_valid_minimum_salary():
             return minimum_salary
         except ValueError:
             print("Please enter a whole number, for example: 60000.")
-
+"""
 def get_user_preferences():
     locations_text = input("Enter locations, separated by commas: ")
     skills_text = input("Enter skills: ")
@@ -54,9 +60,17 @@ def get_user_preferences():
         "employment_types": employment_types,
     }
     return user_preferences
+#user_preferences = get_user_preferences()
+"""
 
-user_preferences = get_user_preferences()
-
+user_preferences = {
+    "locations": ["Edmonton"],
+    "minimum_salary": 40000,
+    "skills": {"python"},
+    "experience_levels": ["entry"],
+    "workplace_types": ["hybrid"],
+    "employment_types": ["internship"],
+}
 
 #print(len(jobs))
 #print(jobs[0]["title"])
@@ -155,10 +169,10 @@ def matched_required_skills(job, user_skills):
     return skill_selected_set
 
 
-job_1_matched_skills = matched_required_skills(
-    jobs[0],
-    user_preferences["skills"]
-)
+#job_1_matched_skills = matched_required_skills(
+#    jobs[0],
+#    user_preferences["skills"]
+#)
 
 #print(len(job_1_matched_skills))
 #print("python" in job_1_matched_skills)
@@ -288,6 +302,17 @@ def print_recommendations(recommendations):
         print_recommendation(recommendation)
 
 print_recommendations(sorted_recommendations)
+
+def recommend_jobs(user_preferences):
+    jobs = get_all_jobs()
+    recommendation = generate_recommendations(jobs, user_preferences)
+    recommendation = sort_recommendations(recommendation)
+    return recommendation
+recommendations = generate_recommendations(jobs, user_preferences)
+sorted_recommendations = sort_recommendations(recommendations)
+print_recommendations(sorted_recommendations)
+
+
 
 
 
