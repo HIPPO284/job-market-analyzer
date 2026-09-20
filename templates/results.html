@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Job Market Analyzer">
+    <title>Job Market Analyzer</title>
+</head>
+<body>
+    <h1>Job Recommendations</h1>
+    <p>Your matching jobs will appear below.</p>
+    <p>Found {{ recommendations|length }} recommendations.</p>
+    {% for recommendation in recommendations %}
+        <h2>{{ recommendation["title"] }}</h2>
+        <p>Company: {{ recommendation["company"]}}</p>
+        <p>Location: {{ recommendation["location"]}}</p>
+        <p>Workplace Type: {{ recommendation["workplace_type"]}}</p>
+        <p>Employment Type: {{ recommendation["employment_type"]}}</p>
+        <p>Experience Level: {{ recommendation["experience_level"]}}</p>
+        <p>Required Skills: {{ recommendation["required_skills"] | join(",")}}</p>
+        <p>Preferred Skills: {{ recommendation["preferred_skills"] | join(",")}}</p>
+        <p>Recommend Score: {{ recommendation["skill_match_score"]}}</p>
+        <p>Minimum Salary: {{ recommendation["salary_min"]}}</p>
+        <p>Maximum Salary: {{ recommendation["salary_max"]}}</p>
+    {% endfor %}
+
+</body>
+</html>
