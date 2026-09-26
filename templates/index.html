@@ -5,38 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Job Market Analyzer">
     <title>Job Market Analyzer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_index.css') }}">
 </head>
 <body>
     <h1>Job Market Analyzer</h1>
-    <p>Find internships based on your skills.</p>
-    <main>
+    <p class="subtitle">Find jobs or internships based on your skills.</p>
+    <main class="results-page">
         <h2> Your preferences </h2>
         <form action="/hippo" method="post">
             <label for="skills"> Your skills:</label>
-            <input type="text" id="skills" name="skills">
+            <input type="text" id="skills" name="skills" placeholder="e.g. Biology, Excel, Python, Social Media">
             <label for="locations"> Preferred locations:</label>
-            <input type="text" id="locations" name="locations">
-            <label for="minimum_salary"> Minimum Salary:</label>
-            <input type="number" id="minimum_salary" name="minimum_salary" min="0">
+            <input type="text" id="locations" name="locations" placeholder="e.g: Xi'an, Vancouver, Los Angeles">
+            <label for="minimum_salary">Minimum Annual Salary (optional):</label>
+                <div class="salary-input-row">
+                    <input type="number" id="minimum_salary" name="minimum_salary" min="0" placeholder="e.g. 755755">
+                    <select id="salary_currency" name="salary_currency" aria-label="Salary currency" class="filter-select salary-input-row">
+                        <option value="" selected>Select a currency</option>
+                        <option value="CNY">CNY — Chinese Yuan</option>
+                        <option value="CAD">CAD — Canadian Dollar</option>
+                        <option value="USD">USD — US Dollar</option>
+                        <option value="EUR">EUR — Euro</option>
+                        <option value="GBP">GBP — British Pound</option>
+                        <option value="JPY">JPY — Japanese Yen</option>
+                        <option value="AUD">AUD — Australian Dollar</option>
+                        <option value="NZD">NZD — New Zealand Dollar</option>
+                        <option value="CHF">CHF — Swiss Franc</option>
+                        <option value="KRW">KRW — South Korean Won</option>
+                        <option value="INR">INR — Indian Rupee</option>
+                        <option value="SGD">SGD — Singapore Dollar</option>
+                        <option value="HKD">HKD — Hong Kong Dollar</option>
+                        <option value="MXN">MXN — Mexican Peso</option>
+                        <option value="BRL">BRL — Brazilian Real</option>
+                        <option value="SEK">SEK — Swedish Krona</option>
+                        <option value="NOK">NOK — Norwegian Krone</option>
+                        <option value="DKK">DKK — Danish Krone</option>
+                    </select>
+                </div>
             <label for="workplace_type"> Workplace Type: </label>
-            <select id="workplace_type" name="workplace_type">
-                <option value=""> Choose an option </option>
+            <select id="workplace_type" name="workplace_type" class="filter-select">
+                <option value="" selected>Any workplace Type</option>
                 <option value="hybrid"> Hybrid </option>
                 <option value="remote"> Remote </option>
                 <option value="onsite"> Onsite </option>
             </select>
+            <label for="education_level"> Education Level: </label>
+            <select id="education_level" name="education_level" class="filter-select">
+                <option value="" selected>Any Education Level</option>
+                <option value="high_school_or_below"> High School or below </option>
+                <option value="bachelor"> Bachelor </option>
+                <option value="master"> Master </option>
+                <option value="doctoral"> Doctoral</option>
+            </select>
             <label for="experience_level"> Experience Level</label>
-            <select id="experience_level" name="experience_level">
-                <option value=""> Choose an option </option>
+            <select id="experience_level" name="experience_level" class="filter-select">
+                <option value="" selected>Any Experience Level</option>
                 <option value="entry"> Entry </option>
                 <option value="junior"> Junior </option>
                 <option value="intermediate"> Intermediate </option>
                 <option value="senior"> Senior </option>
             </select>
             <label for="employment_type">Employment Type:</label>
-            <select id="employment_type" name="employment_type" required>
-                <option value="" selected disabled>Choose an option</option>
+            <select id="employment_type" name="employment_type" class="filter-select">
+                <option value="" selected>Any Employment Type</option>
                 <option value="internship">Internship</option>
                 <option value="full_time">Full-time</option>
                 <option value="part_time">Part-time</option>

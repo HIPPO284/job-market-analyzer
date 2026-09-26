@@ -15,7 +15,11 @@ def get_all_jobs():
             employment_type,
             experience_level,
             salary_min,
-            salary_max
+            salary_max,
+            minimum_education_level,
+            posted_date,
+            application_deadline,
+            application_url
         FROM jobs
         ORDER BY job_id;
     """)

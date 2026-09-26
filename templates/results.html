@@ -5,24 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Job Market Analyzer">
     <title>Job Market Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_results.css') }}">
 </head>
 <body>
-    <h1>Job Recommendations</h1>
-    <p>Your matching jobs will appear below.</p>
-    <p>Found {{ recommendations|length }} recommendations.</p>
-    {% for recommendation in recommendations %}
-        <h2>{{ recommendation["title"] }}</h2>
-        <p>Company: {{ recommendation["company"]}}</p>
-        <p>Location: {{ recommendation["location"]}}</p>
-        <p>Workplace Type: {{ recommendation["workplace_type"]}}</p>
-        <p>Employment Type: {{ recommendation["employment_type"]}}</p>
-        <p>Experience Level: {{ recommendation["experience_level"]}}</p>
-        <p>Required Skills: {{ recommendation["required_skills"] | join(",")}}</p>
-        <p>Preferred Skills: {{ recommendation["preferred_skills"] | join(",")}}</p>
-        <p>Recommend Score: {{ recommendation["skill_match_score"]}}</p>
-        <p>Minimum Salary: {{ recommendation["salary_min"]}}</p>
-        <p>Maximum Salary: {{ recommendation["salary_max"]}}</p>
-    {% endfor %}
+    <div class="results-layout">
+    <nav class="job-navigation" aria-label="Job recommendations">
+        <p>Jump to a job</p>
+        <ol>
+            {% for recommendation in recommendations %}
+                <li>
+                    <a href="#job-{{ loop.index }}">
+                        {{ recommendation["title"] }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ol>
+    </nav>
 
+    <main class="results-page" >
+        <h1>Job Recommendations</h1>
+        <div class="intro">
+            <p>Your matching jobs will appear below.</p>
+            <p>Found {{ recommendations|length }} recommendations.</p>
+        </div>
+        {% for recommendation in recommendations %}
+            <article class="job-card" id="job-{{ loop.index }}">
+                <h2>{{ loop.index }}.{{ recommendation["title"] }}</h2>
+                <p>Company: {{ recommendation["company"]}}</p>
+                <p>Location: {{ recommendation["location"]}}</p>
+                <p>Workplace Type: {{ recommendation["workplace_type"] or "Not specified" }}</p>
+                <p>Employment Type: {{ recommendation["employment_type"] or "Not specified" }}</p>
+                <p>Experience Level: {{ recommendation["experience_level"] or "Not specified" }}</p>
+                <p>Required Skills: {{ recommendation["required_skills"] | join(", ") or "Not specified" }}</p>
+                <p>Preferred Skills: {{ recommendation["preferred_skills"] | join(", ")  or "Not specified"}}</p>
+                <p>Skill Match Score: {{ recommendation["skill_match_score"]}}%</p>
+                <p>Minimum Annual Salary (CAD): {{ recommendation["salary_min"] if recommendation["salary_min"] is not none else "Not specified" }}</p>
+                <p>Maximum Annual Salary (CAD): {{ recommendation["salary_max"] if recommendation["salary_max"] is not none else "Not specified"  }}</p>
+                <p>Minimum Education Requirement: {{ recommendation["minimum_education_level"] or "Not specified" }}</p>
+                <p>Job Posted Date: {{recommendation["posted_date"] or "Not specified"}}</p>
+                <p>Application Deadline: {{recommendation["application_deadline"] or "Not specified"}}</p>
+                <div class="application-area">
+                    {% if recommendation["application_url"] %}
+                        <a
+                            class="apply-button"
+                            href="{{ recommendation['application_url'] }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                         View application
+                        </a>
+                    {% else %}
+                        <p class="application-unavailable">
+                            Application link not publicly available
+                        </p>
+                    {% endif %}
+                </div>
+            </article>
+        {% endfor %}
+    </main>
+    </div>
 </body>
 </html>
