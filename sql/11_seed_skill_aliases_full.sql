@@ -2808,3 +2808,11 @@ INSERT IGNORE INTO skill_aliases (alias_name, skill_id) VALUES
     ('yardisoftware', 167);
 
 SELECT COUNT(*) AS alias_count FROM skill_aliases;
+
+USE job_market_analyzer;
+
+INSERT INTO skill_aliases (alias_name, skill_id) VALUES
+                                                     ('ai assisted scripting', 1060),
+                                                     ('firewall', 1257),
+                                                     ('graphql api', 1271),
+                                                     ('meddpicc framework application', 1372);

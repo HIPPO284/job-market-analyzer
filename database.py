@@ -1,10 +1,10 @@
 import os
 
 import mysql.connector
-from dotenv import load_dotenv
+from dotenv import load_dotenv   # Import load_dotenv to load the .env file
 
 
-load_dotenv()
+load_dotenv()  #  Load environment variables from the .env file
 
 
 def get_database_connection():

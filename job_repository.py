@@ -19,7 +19,12 @@ def get_all_jobs():
             minimum_education_level,
             posted_date,
             application_deadline,
-            application_url
+            application_url,
+            salary_currency,
+            salary_period,
+            working_hours_per_week,
+            working_days_per_week,
+            role_summary
         FROM jobs
         ORDER BY job_id;
     """)
@@ -27,8 +32,18 @@ def get_all_jobs():
     jobs = cursor.fetchall()
 
     for job in jobs:
+        for field in (
+                "salary_min",
+                "salary_max",
+                "working_hours_per_week",
+                "working_days_per_week",
+        ):
+            if job[field] is not None:
+                job[field] = float(job[field])
+
         job["required_skills"] = []
         job["preferred_skills"] = []
+        job["locations"] = []
 
     jobs_by_id = {}
 
@@ -55,6 +70,29 @@ def get_all_jobs():
             job["required_skills"].append(skill_row["skill_name"])
         else:
             job["preferred_skills"].append(skill_row["skill_name"])
+    cursor.execute("""
+                   SELECT job_locations.job_id,
+                          locations.geoname_id,
+                          locations.location_type,
+                          locations.country_id,
+                          locations.province_id
+                   FROM job_locations
+                            INNER JOIN locations
+                                       ON locations.geoname_id = job_locations.geoname_id
+                   ORDER BY job_locations.job_id, locations.geoname_id;
+                   """)
+
+    location_rows = cursor.fetchall()
+
+    for location_row in location_rows:
+        job = jobs_by_id[location_row["job_id"]]
+
+        job["locations"].append({
+            "geoname_id": location_row["geoname_id"],
+            "location_type": location_row["location_type"],
+            "country_id": location_row["country_id"],
+            "province_id": location_row["province_id"],
+        })
 
     cursor.close()
     connection.close()

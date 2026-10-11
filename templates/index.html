@@ -6,6 +6,11 @@
     <meta name="description" content="Job Market Analyzer">
     <title>Job Market Analyzer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles_index.css') }}">
+    <script src="{{ url_for('static', filename='skill_autocomplete.js') }}" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='map.css') }}">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="{{ url_for('static', filename='map.js') }}" defer></script>
 </head>
 <body>
     <h1>Job Market Analyzer</h1>
@@ -13,13 +18,29 @@
     <main class="results-page">
         <h2> Your preferences </h2>
         <form action="/hippo" method="post">
+
             <label for="skills"> Your skills:</label>
-            <input type="text" id="skills" name="skills" placeholder="e.g. Biology, Excel, Python, Social Media">
+            <div class="skills-field">
+                <div id="selected-skills"></div>
+
+                <input id="skills" type="text" placeholder="Search a skill..." autocomplete="off">
+            </div>
+            <div id="skill-suggestions"></div>
+
             <label for="locations"> Preferred locations:</label>
-            <input type="text" id="locations" name="locations" placeholder="e.g: Xi'an, Vancouver, Los Angeles">
+            <div class="location-field">
+                <input type="text" id="locations" name="locations" placeholder="Click a point on the map and allow a few seconds for results.." readonly>
+                <input type="hidden" id="location-id" name="location_id">
+                <input type="hidden" id="location-type" name="location_type">
+                <input type="hidden" id="location-country-id" name="location_country_id">
+                <div id="location-suggestions"></div>
+            </div>
+
+            <div id="location-map"></div>
+
             <label for="minimum_salary">Minimum Annual Salary (optional):</label>
                 <div class="salary-input-row">
-                    <input type="number" id="minimum_salary" name="minimum_salary" min="0" placeholder="e.g. 755755">
+                    <input type="number" id="minimum_salary" name="minimum_salary" min="0" step="any"   placeholder="e.g. 755755">
                     <select id="salary_currency" name="salary_currency" aria-label="Salary currency" class="filter-select salary-input-row">
                         <option value="" selected>Select a currency</option>
                         <option value="CNY">CNY — Chinese Yuan</option>
@@ -42,6 +63,7 @@
                         <option value="DKK">DKK — Danish Krone</option>
                     </select>
                 </div>
+
             <label for="workplace_type"> Workplace Type: </label>
             <select id="workplace_type" name="workplace_type" class="filter-select">
                 <option value="" selected>Any workplace Type</option>
@@ -49,6 +71,7 @@
                 <option value="remote"> Remote </option>
                 <option value="onsite"> Onsite </option>
             </select>
+
             <label for="education_level"> Education Level: </label>
             <select id="education_level" name="education_level" class="filter-select">
                 <option value="" selected>Any Education Level</option>
@@ -57,6 +80,7 @@
                 <option value="master"> Master </option>
                 <option value="doctoral"> Doctoral</option>
             </select>
+
             <label for="experience_level"> Experience Level</label>
             <select id="experience_level" name="experience_level" class="filter-select">
                 <option value="" selected>Any Experience Level</option>
@@ -65,6 +89,7 @@
                 <option value="intermediate"> Intermediate </option>
                 <option value="senior"> Senior </option>
             </select>
+
             <label for="employment_type">Employment Type:</label>
             <select id="employment_type" name="employment_type" class="filter-select">
                 <option value="" selected>Any Employment Type</option>

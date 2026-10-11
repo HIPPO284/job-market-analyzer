@@ -8,11 +8,15 @@ CREATE TABLE IF NOT EXISTS jobs (
     company VARCHAR(150) NOT NULL,
     title VARCHAR(150) NOT NULL,
     location VARCHAR(100) NOT NULL,
-    workplace_type VARCHAR(25) NOT NULL,
-    employment_type VARCHAR(25) NOT NULL,
-    experience_level VARCHAR(25) NOT NULL,
-    salary_min INT NOT NULL,
-    salary_max INT NOT NULL,
+    workplace_type VARCHAR(25),
+    employment_type VARCHAR(25),
+    experience_level VARCHAR(25),
+    salary_min INT,
+    salary_max INT,
+    minimum_education_level VARCHAR(20),
+    posted_date DATE,
+    application_deadline DATE,
+    application_url VARCHAR(2048),
 
     CONSTRAINT chk_salary_min_nonnegative
         CHECK (salary_min >= 0),
@@ -42,3 +46,11 @@ CREATE TABLE IF NOT EXISTS job_skills (
     FOREIGN KEY (skill_id)
         REFERENCES skills(skill_id)
 );
+
+
+
+USE job_market_analyzer;
+
+ALTER TABLE jobs
+    MODIFY COLUMN salary_min DECIMAL(18,4) NULL,
+    MODIFY COLUMN salary_max DECIMAL(18,4) NULL;

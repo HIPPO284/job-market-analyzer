@@ -12,3 +12,9 @@ ALTER TABLE jobs
     ADD COLUMN application_url VARCHAR(2048) NULL;
 
 DESCRIBE jobs;
+
+ALTER TABLE jobs
+    ADD COLUMN salary_currency VARCHAR(3) NULL,
+    ADD COLUMN salary_period VARCHAR(10) NULL,
+    ADD COLUMN working_hours_per_week DECIMAL(5,2) NULL,
+    ADD COLUMN working_days_per_week DECIMAL(5,2) NULL;

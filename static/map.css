@@ -1,0 +1,43 @@
+.location-field {
+    position: relative;
+}
+
+#location-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1100;
+    max-height: 220px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+}
+
+#location-suggestions:empty {
+    display: none;
+}
+
+#location-suggestions > button {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 10px 12px;
+    text-align: left;
+    height: 44px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: white;
+    color: #334155;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+#location-suggestions > button:hover {
+    background: #eff6ff;
+}

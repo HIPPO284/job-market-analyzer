@@ -1,5 +1,10 @@
 from database import get_database_connection
+import re
 
+def normalize_skill_format(text):
+    text = text.lower().strip()
+    text = re.sub(r"(?<=\w)[-‐‑‒–—](?=\w)", " ", text)
+    return " ".join(text.split())
 
 
 def find_standard_skill(skill_text):
@@ -31,15 +36,28 @@ def find_standard_skill(skill_text):
             (normalized_skill_text,),
         )
         result = cursor.fetchone()
+    if result is None:
+        formatted_text = normalize_skill_format(skill_text)
+        matched_ids = []
 
+        for skill_row in all_skills:
+            text = skill_row.get("alias_name") or skill_row.get("skill_name")
+
+            if normalize_skill_format(text) == formatted_text:
+                skill_id = skill_row["skill_id"]
+
+                if skill_id not in matched_ids:
+                    matched_ids.append(skill_id)
+
+        if len(matched_ids) == 1:
+            cursor.execute(
+                "SELECT skill_id, skill_name FROM skills WHERE skill_id = %s",
+                (matched_ids[0],),
+            )
+            result = cursor.fetchone()
     cursor.close()
     connection.close()
     return result
-
-
-
-
-
 
 
 
@@ -81,7 +99,29 @@ def load_skill_search_index():
     return result
 all_skills = load_skill_search_index()
 
+def find_skill_candidates(description_text, skill_rows):
+    standard_names = {}
 
+    for skill_row in skill_rows:
+        if "skill_name" in skill_row:
+            standard_names[skill_row["skill_id"]] = skill_row["skill_name"]
+
+    candidates = []
+
+    for skill_row in skill_rows:
+        text = skill_row.get("alias_name") or skill_row.get("skill_name")
+        if not text:
+            continue
+
+        pattern = r"(?<!\w)" + re.escape(text) + r"(?!\w)"
+
+        if re.search(pattern, description_text, re.IGNORECASE):
+            skill_name = standard_names[skill_row["skill_id"]]
+
+            if skill_name not in candidates:
+                candidates.append(skill_name)
+
+    return candidates
 
 class MaxHeap:
     def __init__(self):
@@ -166,30 +206,63 @@ def levenshtein_distance(word1, word2):
             dp[row][col] = min(replace, delete, insert)
     return dp[rows - 1][cols - 1]
 
-print(levenshtein_distance("pythn", "python"))
-print(levenshtein_distance("ab", "acb"))
-
-
 def find_skill_suggestions(skill_text, skill_rows):
-    skill_text = skill_text.lower().strip()
+    normalized_skill_text = skill_text.lower().strip()
+    prefix_entries = []
     heap = MaxHeap()
+    if len(normalized_skill_text) < 2:
+        return []
+
     for count, skill_row in enumerate(skill_rows):
         if "alias_name" in skill_row:
-            candidate_text = skill_row["alias_name"]
+            text = skill_row["alias_name"]
         else:
-            candidate_text = skill_row["skill_name"]
-        score = levenshtein_distance(skill_text, candidate_text)
-        entry = (score, count)
-        if len(heap.heap) < 3:
-            heap.push(entry)
-        elif entry < heap.peek():
-            heap.pop_max()
-            heap.push(entry)
+            text = skill_row["skill_name"]
 
-    heap.heap.sort()
+        if text.startswith(normalized_skill_text):
+            score = len(text) - len(normalized_skill_text)
+            entry = (score, count)
+            prefix_entries.append(entry)
+
+    if len(prefix_entries) >= 3:
+        for entry in prefix_entries:
+            if len(heap.heap) < 3:
+                 heap.push(entry)
+            elif entry < heap.peek():
+                 heap.pop_max()
+                 heap.push(entry)
+        heap.heap.sort()
+        return heap.heap
+
+    if 0 < len(prefix_entries) < 3 :
+        prefix_entries.sort()
+        return prefix_entries
+
+    if len(prefix_entries) == 0 and len(normalized_skill_text) < 4:
+        return []
+    else:
+        for count, skill_row in enumerate(skill_rows):
+            if "alias_name" in skill_row:
+                candidate_text = skill_row["alias_name"]
+            else:
+                candidate_text = skill_row["skill_name"]
+
+            score = levenshtein_distance(normalized_skill_text, candidate_text)
+            similarity = 1 - score / max(len(normalized_skill_text), len(candidate_text))
+
+            if similarity >= 0.70:
+                entry = (score, count)
+                if len(heap.heap) < 3:
+                    heap.push(entry)
+                elif entry < heap.peek():
+                    heap.pop_max()
+                    heap.push(entry)
+        heap.heap.sort()
+        return heap.heap
+
+def return_suggestions(sorted_list, skill_rows):
     js_return = []
-
-    for score, count in heap.heap:
+    for score, count in sorted_list:
         skill_row = skill_rows[count]
         if "alias_name" in skill_row:
             text = skill_row["alias_name"]
@@ -200,9 +273,22 @@ def find_skill_suggestions(skill_text, skill_rows):
 
     return js_return
 
-print(find_skill_suggestions("pyt", all_skills))
-print(find_skill_suggestions("zzzz", all_skills))
 
+
+if __name__ == "__main__":
+    test_inputs = ["", "p", "py", "pyth", "pythn", "python 3", "  PYTHON3  ", "flask", "flsak", "javas", "javscript", "typescript", "typesript", "react", "raect", "html", "css", "node", "node.js", "rest", "rest api", "sql", "mysql", "myslq", "postgres", "postgreql", "dock", "dokcer", "aws", "azure", "azue", "linux", "git", "jira", "excel", "power b", "power bi", "pandas", "pytest", "pytes", "selenium", "slenium", "testing", "c#", "c++", "cpp", "zzzz"]
+    for skill_text in test_inputs:
+        sorted_list = find_skill_suggestions(
+            skill_text,
+            all_skills,
+        )
+
+        suggestions = return_suggestions(
+            sorted_list,
+            all_skills,
+        )
+
+        print(skill_text, "->", suggestions)
 
 
 

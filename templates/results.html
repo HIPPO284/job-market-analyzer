@@ -32,6 +32,9 @@
             <article class="job-card" id="job-{{ loop.index }}">
                 <h2>{{ loop.index }}.{{ recommendation["title"] }}</h2>
                 <p>Company: {{ recommendation["company"]}}</p>
+                {% if recommendation["role_summary"] %}
+                    <p>Overview: {{ recommendation["role_summary"] }}</p>
+                {% endif %}
                 <p>Location: {{ recommendation["location"]}}</p>
                 <p>Workplace Type: {{ recommendation["workplace_type"] or "Not specified" }}</p>
                 <p>Employment Type: {{ recommendation["employment_type"] or "Not specified" }}</p>
@@ -39,8 +42,8 @@
                 <p>Required Skills: {{ recommendation["required_skills"] | join(", ") or "Not specified" }}</p>
                 <p>Preferred Skills: {{ recommendation["preferred_skills"] | join(", ")  or "Not specified"}}</p>
                 <p>Skill Match Score: {{ recommendation["skill_match_score"]}}%</p>
-                <p>Minimum Annual Salary (CAD): {{ recommendation["salary_min"] if recommendation["salary_min"] is not none else "Not specified" }}</p>
-                <p>Maximum Annual Salary (CAD): {{ recommendation["salary_max"] if recommendation["salary_max"] is not none else "Not specified"  }}</p>
+                <p>Minimum Salary: {{ recommendation["salary_min"] if recommendation["salary_min"] is not none else "Not specified" }}</p>
+                <p>Maximum Salary: {{ recommendation["salary_max"] if recommendation["salary_max"] is not none else "Not specified"  }}</p>
                 <p>Minimum Education Requirement: {{ recommendation["minimum_education_level"] or "Not specified" }}</p>
                 <p>Job Posted Date: {{recommendation["posted_date"] or "Not specified"}}</p>
                 <p>Application Deadline: {{recommendation["application_deadline"] or "Not specified"}}</p>
