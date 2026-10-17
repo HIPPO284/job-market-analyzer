@@ -1,4 +1,4 @@
--- Run this once in the MySQL Local Root console.
+
 USE job_market_analyzer;
 
 ALTER TABLE jobs

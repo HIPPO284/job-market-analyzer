@@ -1,5 +1,6 @@
-from jobs_data_ai_normalization import greenhouse_ai_normalizer
+from jobs_data_ai_normalization import greenhouse_ai_normalizer, lever_ai_normalizer
 from job_sources.greenhouse_source import fetch_greenhouse_jobs, parse_greenhouse_jobs
+from job_sources.lever_source import fetch_lever_jobs, parse_lever_jobs
 import requests
 import json
 from skill_normalizer import find_standard_skill
@@ -20,6 +21,27 @@ import unicodedata
 
 
 COUNTRY_FEATURE_CODES = ("PCLI", "PCLS", "PCLD", "PCLF")
+
+
+class GeoNamesQuotaExceeded(RuntimeError):
+    """Raised when GeoNames reports that this account has exhausted a quota."""
+
+
+def raise_if_geonames_quota_exceeded(data):
+    """Stop an import batch instead of treating a quota response as no match."""
+    if not isinstance(data, dict):
+        return
+
+    status = data.get("status")
+    if not isinstance(status, dict):
+        return
+
+    value = status.get("value")
+    message = str(status.get("message") or "")
+    if value in (18, 19, 20) or "limit" in message.casefold() or "credit" in message.casefold():
+        raise GeoNamesQuotaExceeded(
+            f"GeoNames quota response ({value}): {message or 'quota limit reached'}"
+        )
 
 
 def search_country(country_name):
@@ -393,6 +415,7 @@ def location_id_search(merged_jobs):
                 # 先确认国家或地区。
                 if normalize_place_name(location.get("country")):
                     data = search_country(location["country"])
+                    raise_if_geonames_quota_exceeded(data)
 
                     if not valid_search_response(data):
                         location["lookup_issue"] = "country_lookup_failed"
@@ -425,6 +448,7 @@ def location_id_search(merged_jobs):
                         location["state"],
                         country_code,
                     )
+                    raise_if_geonames_quota_exceeded(data)
 
                     if not valid_search_response(data):
                         location["lookup_issue"] = "province_lookup_failed"
@@ -456,6 +480,7 @@ def location_id_search(merged_jobs):
                         country_code,
                         province_code,
                     )
+                    raise_if_geonames_quota_exceeded(data)
 
                     location["lookup_kind"] = "city"
 
@@ -927,6 +952,50 @@ def save_jobs(merged_jobs):
         connection.close()
 
 
+def prepare_lever_jobs(company_name="leverdemo", limit=None):
+    """Fetch and normalize Lever jobs without writing to the database."""
+    raw_jobs = fetch_lever_jobs(company_name)
+    if limit is not None:
+        raw_jobs = raw_jobs[:limit]
+    return lever_ai_normalizer(raw_jobs, company_name=company_name)
+
+
+
+if __name__ == "__main__":
+    company_name = "leverdemo"   # 改成真实 Lever 公司名
+    limit = 10                    # 先测试 10 条
+
+    lever_jobs = prepare_lever_jobs(
+        company_name=company_name,
+        limit=limit,
+    )
+
+    lever_jobs = location_id_search(lever_jobs)
+
+    for job in lever_jobs:
+        for location in job.get("location") or []:
+            location["geonames_selected"] = select_unique_location(location)
+            location["location_record"] = build_location_record(location)
+
+    output_path = Path(__file__).with_name(
+        f"lever_{company_name}_{datetime.now():%Y%m%d_%H%M%S}.json"
+    )
+
+    output_path.write_text(
+        json.dumps(
+            lever_jobs,
+            ensure_ascii=False,
+            indent=2,
+            default=str,
+        ),
+        encoding="utf-8",
+    )
+
+    print(f"Saved {len(lever_jobs)} Lever jobs to: {output_path}")
+
+    save_jobs(lever_jobs)
+
+"""
 if __name__ == "__main__":
     use_saved_json = True
 
@@ -966,3 +1035,4 @@ if __name__ == "__main__":
     print(f"Saved {len(merged_jobs)} jobs to: {output_path}")
 
     save_jobs(merged_jobs)
+"""

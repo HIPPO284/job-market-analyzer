@@ -261,7 +261,7 @@ def generate_recommendations(jobs, user_preferences):
         preferred_matches = matched_preferred_skills(
             job, user_preferences["skills"]
         )
-        if not required_matches and not preferred_matches:
+        if user_preferences["skills"] and not required_matches and not preferred_matches:
             continue
 
         r = build_job_recommendation(job, user_preferences["skills"], user_preferences)

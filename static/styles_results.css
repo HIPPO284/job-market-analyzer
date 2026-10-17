@@ -101,6 +101,24 @@ main {
     text-align: center;
     border-radius: 8px;
 }
+.more-results-error {
+    margin: 0;
+    color: #b91c1c;
+}
+#more-results {
+    align-self: flex-start;
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 8px;
+    background-color: deepskyblue;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+#more-results:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
 .apply-button:hover{
     color: forestgreen;
 }

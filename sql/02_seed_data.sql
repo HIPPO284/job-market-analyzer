@@ -119,8 +119,44 @@ FROM job_skills
                     ON jobs.job_id = job_skills.job_id
 WHERE jobs.job_id = 2;
 
+USE job_market_analyzer;
 
-    
+SELECT *
+FROM jobs
+WHERE employment_type = 'internship';
+
+
+
+
+SELECT
+    j.job_id,
+    j.company,
+    j.title,
+    j.location,
+    j.application_url,
+    GROUP_CONCAT(DISTINCT s.skill_name ORDER BY s.skill_name SEPARATOR ', ') AS matched_skills
+FROM jobs AS j
+         JOIN job_skills AS js
+              ON js.job_id = j.job_id
+         JOIN skills AS s
+              ON s.skill_id = js.skill_id
+WHERE s.skill_name IN (
+                       'c',
+                       'linux',
+                       'operating systems',
+                       'reverse engineering',
+                       'cybersecurity',
+                       'network security',
+                       'application security',
+                       'penetration testing',
+                       'exploit development',
+                       'cryptography',
+                       'web application firewall',
+                       'web application and api protection'
+    )
+GROUP BY
+    j.job_id, j.company, j.title, j.location, j.application_url
+ORDER BY j.job_id DESC;
 
 
 

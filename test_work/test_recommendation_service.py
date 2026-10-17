@@ -11,9 +11,9 @@ user_preferences = {
     "education_level": "bachelor",
 }
 
-recommendations = recommend_jobs(user_preferences)
+recommendations, total_matches = recommend_jobs(user_preferences)
 
-print(f"Recommendations found: {len(recommendations)}")
+print(f"Recommendations found: {total_matches}; showing: {len(recommendations)}")
 
 for recommendation in recommendations:
     print(

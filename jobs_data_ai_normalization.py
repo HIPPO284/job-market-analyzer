@@ -2,6 +2,7 @@ from pydantic import BaseModel,Field, model_validator
 from ollama import chat, ResponseError
 from httpx import HTTPError
 from job_sources.greenhouse_source import ai_insert_info, fetch_greenhouse_jobs
+from job_sources.lever_source import parse_lever_jobs
 import json
 from typing import Literal
 from skill_normalizer import find_standard_skill, load_skill_search_index, find_skill_candidates
@@ -203,7 +204,7 @@ explanations, confidence scores or copied source text.
 
 """
 
-def greenhouse_ai_normalizer(jobs):
+def greenhouse_ai_normalizer(jobs, source_name="greenhouse"):
     greenhouse_ai_output = []
     skill_rows = load_skill_search_index()
 
@@ -297,7 +298,31 @@ def greenhouse_ai_normalizer(jobs):
                     preferred_names.append(skill_name)
 
             job_dict["preferred_skills"] = preferred_names
-        job_dict["source_name"] = "greenhouse"
+        job_dict["source_name"] = source_name
         job_dict["source_job_id"] = job["id"]
         greenhouse_ai_output.append(job_dict)
     return greenhouse_ai_output
+
+def lever_ai_normalizer(jobs, company_name="leverdemo"):
+    adapted_jobs = []
+    for job in jobs:
+        categories = job.get("categories") or {}
+        locations = categories.get("allLocations") or []
+        if not locations and categories.get("location"):
+            locations = [categories["location"]]
+        adapted_jobs.append({
+            "id": job.get("id"),
+            "title": job.get("text"),
+            "company_name": company_name,
+            "content": job.get("description") or job.get("descriptionPlain") or "",
+            "offices": [{"name": location} for location in locations],
+            "location": {"name": ", ".join(locations)},
+        })
+    normalized_jobs = greenhouse_ai_normalizer(adapted_jobs, source_name="lever")
+    system_jobs = parse_lever_jobs(jobs, company_name)
+    for normalized, system in zip(normalized_jobs, system_jobs):
+        for key, value in system.items():
+            if key not in normalized or normalized[key] is None:
+                normalized[key] = value
+        normalized["ai_normalization_success"] = True
+    return normalized_jobs

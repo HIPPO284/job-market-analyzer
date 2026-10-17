@@ -26,6 +26,11 @@ CREATE TABLE job_locations(
                                       REFERENCES jobs(job_id)
 );
 
+
+
+
+
+
 USE job_market_analyzer;
 START TRANSACTION;
 
