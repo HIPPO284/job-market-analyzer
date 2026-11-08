@@ -17,8 +17,13 @@ Find jobs and internships through your skills, with optional filters, ranked res
 - Deployment: Azure, Ubuntu, Gunicorn, Nginx, systemd, Certbot.
 - Windows: pywebview, PyInstaller, NSIS.
 - Version control: Git and GitHub.
+- Integrations: Leaflet and OpenStreetMap for maps, GeoNames for location lookup, and Frankfurter for ECB exchange-rate data.
 
-AI assists with data preparation; search ranking uses SQL-based rules.
+## Data Preparation
+
+Job information was extracted and structured from recruitment sources using both a local Ollama workflow and conversational AI assistance. The resulting data and SQL were reviewed before import; missing information was not intentionally filled with invented details.
+
+Search ranking uses SQL-based rules.
 
 ## Project Links
 
