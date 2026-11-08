@@ -21,7 +21,7 @@ Find jobs and internships through your skills, with optional filters, ranked res
 
 ## Data Preparation
 
-Job information was extracted and structured from recruitment sources using both a local Ollama and Codex AI assistance. The resulting data and SQL were reviewed before import, fields missing from the source information were left unspecified.
+Job information was extracted and structured from recruitment sources using a local Ollama workflow and Codex assistance. The resulting data and SQL were reviewed before import; fields missing from the source information were left unspecified.
 
 Search ranking uses SQL-based rules.
 
@@ -42,3 +42,11 @@ Project code is licensed under the MIT terms in [LICENSE](LICENSE).
 Hippo artwork and icons are excluded from MIT and covered by the separate [Artwork License](desktop_client/ARTWORK_LICENSE.txt).
 
 Third-party components remain subject to their respective licenses.
+
+## Development Approach
+
+This is an AI-assisted learning project. I defined the requirements, contributed to Python and SQL development, tested the application, and carried out deployment and Windows packaging with guidance.
+
+Codex assisted with code generation, debugging, and configuration, including substantial parts of the SQL search implementation and map integration.
+
+The development workflow covered data preparation, MySQL import, Flask/Jinja pages and JavaScript interactions, Azure deployment, and Windows packaging.
