@@ -12,7 +12,7 @@ Find jobs and internships through your skills, with optional filters, ranked res
 
 ## Technology
 
-- Application: Python, Flask, Jinja, MySQL, HTML, CSS, JavaScript, Leaflet.
+- Application: Python, Flask, Jinja, MySQL, HTML, CSS, JavaScript.
 - Data processing: Requests, Beautiful Soup, Matplotlib, Ollama (runs a local AI model to extract job information), Pydantic (defines and validates structured data).
 - Deployment: Azure, Ubuntu, Gunicorn, Nginx, systemd, Certbot.
 - Windows: pywebview, PyInstaller, NSIS.
@@ -21,7 +21,7 @@ Find jobs and internships through your skills, with optional filters, ranked res
 
 ## Data Preparation
 
-Job information was extracted and structured from recruitment sources using both a local Ollama workflow and conversational AI assistance. The resulting data and SQL were reviewed before import; missing information was not intentionally filled with invented details.
+Job information was extracted and structured from recruitment sources using both a local Ollama and Codex AI assistance. The resulting data and SQL were reviewed before import, fields missing from the source information were left unspecified.
 
 Search ranking uses SQL-based rules.
 
