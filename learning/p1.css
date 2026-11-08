@@ -1,0 +1,97 @@
+* {
+    box-sizing: border-box; /* 让 width 包含 padding 和 border，尺寸更容易控制 */
+}
+body {
+    margin: 0; /* 清除浏览器默认的页面外边距 */
+    padding: 40px 20px; /* 页面上下留 40px，左右留 20px */
+    background-color: #f4f7fb; /* 设置整个网页的浅灰蓝背景 */
+    color: #1f2937; /* 设置网页默认文字颜色 */
+    font-family: Arial, Helvetica, sans-serif; /* 设置整个网页的字体 */
+}
+h1 {
+    margin: 0 0 10px 0; /* 标题下面留 10px 距离 */
+    text-align: center; /* 让主标题水平居中 */
+    color: #1e3a8a; /* 设置主标题为深蓝色 */
+    font-size: 38px; /* 设置主标题字号 */
+    font-weight: 700; /* 设置主标题为粗体 */
+}
+main > p {
+    margin: 0 0 35px 0; /* 描述文字下面留 35px */
+    text-align: center; /* 让描述文字居中 */
+    color: #6b7280; /* 设置描述文字为灰色 */
+    font-size: 17px; /* 设置描述文字字号 */
+}
+main {
+    width: 100%; /* main 可以使用当前页面可用宽度 */
+    max-width: 650px; /* 但是最大宽度限制为 650px */
+    margin: 0 auto; /* 左右 margin 自动计算，从而让 main 居中 */
+}
+h2 {
+    margin: 0 0 18px 0; /* h2 和下面的 form 保持距离 */
+    color: #111827; /* 设置二级标题颜色 */
+    font-size: 24px; /* 设置二级标题大小 */
+    font-weight: 600; /* 设置二级标题粗细 */
+}
+form {
+    display: flex; /* 把 form 设置成 Flexbox container */
+    flex-direction: column; /* 让里面的元素从上到下排列 */
+    gap: 10px; /* 每个直接子元素之间自动留下 10px */
+    width: 100%; /* form 占满 main 的宽度 */
+    padding: 28px; /* form 内容和边缘之间留出空间 */
+    background-color: white; /* form 使用白色背景 */
+    border: 1px solid #dbe1ea; /* 给 form 添加浅灰色边框 */
+    border-radius: 14px; /* 把 form 四个角变圆 */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* 添加轻微阴影，让 form 像一张卡片 */
+}
+label {
+    margin-top: 8px; /* 每一个 label 和上一组内容之间稍微拉开距离 */
+    color: #374151; /* 设置 label 文字颜色 */
+    font-size: 15px; /* 设置 label 字号 */
+    font-weight: 600; /* 让 label 比普通文字稍粗 */
+}
+input,
+select {
+    width: 100%; /* input 和 select 占满 form 可用宽度 */
+    padding: 11px 12px; /* 输入框内部增加空间，让它更容易阅读和点击 */
+    background-color: #ffffff; /* 输入框使用白色背景 */
+    color: #111827; /* 输入内容使用深色文字 */
+    border: 1px solid #cbd5e1; /* 添加浅灰色边框 */
+    border-radius: 8px; /* 输入框四角变圆 */
+    font-size: 15px; /* 输入框文字大小 */
+    font-family: inherit; /* 继承 body 的字体 */
+    outline: none; /* 移除浏览器默认 focus 外框，后面自己设计 */
+}
+input:focus,
+select:focus {
+    border-color: #2563eb; /* 用户点击输入框时，把边框变成蓝色 */
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); /* 点击输入框时增加淡蓝色光圈 */
+}
+button {
+    margin-top: 18px; /* 按钮与最后一个表单字段拉开距离 */
+    padding: 12px 20px; /* 增加按钮内部空间 */
+    background-color: #2563eb; /* 设置按钮背景为蓝色 */
+    color: white; /* 设置按钮文字为白色 */
+    border: none; /* 去掉浏览器默认按钮边框 */
+    border-radius: 8px; /* 按钮四角变圆 */
+    font-size: 16px; /* 设置按钮字体大小 */
+    font-weight: 600; /* 设置按钮文字粗细 */
+    cursor: pointer; /* 鼠标放到按钮上时显示手型 */
+}
+button:hover {
+    background-color: #1d4ed8; /* 鼠标放在按钮上时使用更深的蓝色 */
+}
+
+button:active {
+    transform: translateY(1px); /* 点击按钮时让按钮轻微向下移动 */
+}
+@media (max-width: 600px) {
+    body {
+        padding: 25px 15px; /* 小屏幕时减少网页四周空间 */
+    }
+    h1 {
+        font-size: 30px; /* 手机屏幕上缩小主标题 */
+    }
+    form {
+        padding: 20px; /* 手机屏幕上减少 form 内部空间 */
+    }
+}

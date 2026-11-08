@@ -210,8 +210,20 @@ def find_skill_suggestions(skill_text, skill_rows):
     normalized_skill_text = skill_text.lower().strip()
     prefix_entries = []
     heap = MaxHeap()
-    if len(normalized_skill_text) < 2:
+    if not normalized_skill_text:
         return []
+    if len(normalized_skill_text) == 1:
+        entries = []
+
+        for index, skill_row in enumerate(skill_rows):
+            text = (skill_row.get("alias_name") or skill_row.get("skill_name") or "").strip().lower()
+
+            if text == normalized_skill_text:
+                entries.insert(0, (0, index))
+            elif len(text) == 2 and text.startswith(normalized_skill_text):
+                entries.append((0, index))
+
+        return entries[:3]
 
     for count, skill_row in enumerate(skill_rows):
         if "alias_name" in skill_row:

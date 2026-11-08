@@ -29,7 +29,7 @@ def get_all_jobs():
         ORDER BY job_id;
     """)
 
-    jobs = cursor.fetchall()
+    jobs = cursor.fetchall()        # all job from database
 
     for job in jobs:
         for field in (
@@ -99,4 +99,4 @@ def get_all_jobs():
 
     return jobs
 
-
+

@@ -23,10 +23,29 @@
     </nav>
 
     <main class="results-page" >
+        <div class="result-page-actions">
+            <a class="back-to-search" href="{{ url_for('home') }}">
+                Back to search
+            </a>
+            <a class="analytics-link" href="{{ url_for('analytics') }}">
+                Job Market Insights
+            </a>
+        </div>
         <h1>Job Recommendations</h1>
         <div class="intro">
             <p>Your matching jobs will appear below.</p>
-            <p>Found {{ recommendations|length }} recommendations.</p>
+            {% if total_matched_count > display_limit %}
+                <p class="result-count">
+                    Found <strong>{{ total_matched_count }}</strong> matching jobs.
+                    Showing the top <strong>{{ displayed_count }}</strong>
+                    ranked results out of a display limit of
+                    <strong>{{ display_limit }}</strong>.
+                </p>
+            {% else %}
+                <p class="result-count">
+                    Found <strong>{{ total_matched_count }}</strong> matching jobs.
+                </p>
+            {% endif %}
         </div>
         {% for recommendation in recommendations %}
             <article class="job-card" id="job-{{ loop.index }}">
@@ -41,12 +60,30 @@
                 <p>Experience Level: {{ recommendation["experience_level"] or "Not specified" }}</p>
                 <p>Required Skills: {{ recommendation["required_skills"] | join(", ") or "Not specified" }}</p>
                 <p>Preferred Skills: {{ recommendation["preferred_skills"] | join(", ")  or "Not specified"}}</p>
-                <p>Skill Match Score: {{ recommendation["skill_match_score"]}}%</p>
-                <p>Minimum Salary: {{ recommendation["salary_min"] if recommendation["salary_min"] is not none else "Not specified" }}</p>
-                <p>Maximum Salary: {{ recommendation["salary_max"] if recommendation["salary_max"] is not none else "Not specified"  }}</p>
+                <p>
+                    Minimum Salary:
+                    {% if recommendation["salary_min"] is not none %}
+                        {{ recommendation["salary_min"] }}
+                        {{ recommendation["salary_currency"] or "currency not specified" }}
+                        ({{ recommendation["salary_period"] or "period not specified" }})
+                    {% else %}
+                        Not specified
+                    {% endif %}
+                </p>
+                <p>
+                    Maximum Salary:
+                    {% if recommendation["salary_max"] is not none %}
+                        {{ recommendation["salary_max"] }}
+                        {{ recommendation["salary_currency"] or "(currency not specified)" }}
+                        ({{ recommendation["salary_period"] or "period not specified" }})
+                    {% else %}
+                        Not specified
+                    {% endif %}
+                </p>
                 <p>Minimum Education Requirement: {{ recommendation["minimum_education_level"] or "Not specified" }}</p>
                 <p>Job Posted Date: {{recommendation["posted_date"] or "Not specified"}}</p>
                 <p>Application Deadline: {{recommendation["application_deadline"] or "Not specified"}}</p>
+                <p>Overall Match Score: {{ recommendation["skill_match_score"] }} / 100</p>
                 <div class="application-area">
                     {% if recommendation["application_url"] %}
                         <a

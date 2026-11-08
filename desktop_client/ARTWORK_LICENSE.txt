@@ -1,0 +1,73 @@
+HIPPO ARTWORK LICENSE
+Version 1.0 - 2026-10-23
+
+Copyright (c) 2026 Hippo.
+All rights reserved in the original human-authored contributions.
+
+1. Scope
+
+"Artwork" means the hippo artwork supplied as hippo.png and
+hippo.ico with Job Market Analyzer, including copies embedded
+in the application and installer.
+
+This licence grants permissions only to the extent that Hippo
+owns or controls the relevant rights.
+
+2. Limited permission
+
+You may install, run and back up the official application,
+including displaying its embedded Artwork during normal use.
+
+You may share the complete, unmodified official installer
+without charge, provided that all licence files and notices
+remain intact.
+
+These permissions do not authorize independent reuse of the
+Artwork.
+
+3. Other uses reserved
+
+Except as expressly permitted above, permitted by applicable
+law, or authorized in advance in writing by the relevant
+rights holder, you may not:
+
+- Extract, copy, publish or redistribute the Artwork separately.
+- Modify the Artwork or distribute adaptations of it.
+- Use the Artwork in another application, website, logo,
+  advertisement, product, merchandise or other branding.
+- Sell, sublicense or otherwise commercially exploit the
+  Artwork.
+
+These restrictions apply to both commercial and
+non-commercial uses.
+
+4. Ownership and branding
+
+No ownership or trademark licence is granted.
+
+You may not claim ownership of the Artwork, represent it as
+your own creation, or seek to register it as your own
+trademark or other intellectual property.
+
+You may not imply endorsement, sponsorship or affiliation
+without prior written authorization.
+
+5. Separate software licences
+
+The Artwork is excluded from the MIT licence applicable to
+the project's source code.
+
+These restrictions apply only to the Artwork. Software code
+and third-party components remain subject to their respective
+licences.
+
+6. Legal limits and earlier permissions
+
+Nothing in this notice restricts uses permitted by applicable
+law or claims rights belonging to third parties.
+
+This notice applies to releases distributed with it. It does
+not revoke permissions validly granted under earlier releases.
+
+Any additional permission must be obtained in writing from
+the relevant rights holder.

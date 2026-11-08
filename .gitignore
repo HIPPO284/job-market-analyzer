@@ -3,3 +3,29 @@ __pycache__/
 .idea/
 *.iml
 .env
+codex_automation/
+analytics/search_events.jsonl
+build/
+dist/
+*.exe
+*.zip
+# 本次暂不提交的说明和环境示例
+README.md
+.env.example
+
+# 个人资料、旧部署副本和发行副本
+Job_Market_Analyzer/
+
+# 当前项目的数据输出
+*.json
+*.jsonl
+*.csv
+*.xls
+*.xlsx
+*.log
+
+# 生成的统计图表
+analytics/*.png
+
+# 数据库完整备份，保留其他 SQL 源码
+job-market-analyzer-*.sql

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policies | Job Market Analyzer</title>
+    <meta name="description" content="Job Market Analyzer Policies">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_policies.css') }}">
+</head>
+<body>
+    <header>
+        <a class="back-to-search" href="{{ url_for('home') }}">Back to Search</a>
+    </header>
+
+    <main>
+        <section id="privacy">
+        <h2>Privacy Policy</h2>
+            <p>
+                We store search records on our server in Sweden for statistics until
+                manually deleted; technical logs may include IP addresses for maintenance,
+                and map features use third-party services.
+            </p>
+        </section>
+
+        <section id="artwork">
+        <h2>Artwork</h2>
+            <p>
+                Normal app use is permitted. The hippo artwork and icons
+                are excluded from MIT; separate reuse requires written
+                permission, except as permitted by law.
+                Full terms are included with the installer.
+            </p>
+        </section>
+
+        <section id="terms">
+            <h2>Terms of Use</h2>
+            <p>
+                Job listings and match scores are for reference only and may be outdated
+                or incomplete; employment is not guaranteed, and applications take place
+                on third-party websites under their own terms.
+            </p>
+        </section>
+    </main>
+</body>
+</html>

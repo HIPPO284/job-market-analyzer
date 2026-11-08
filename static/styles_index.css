@@ -99,6 +99,12 @@ button:active {
     form {
         padding: 20px;
     }
+    .preferences-header {
+    flex-wrap: wrap;
+    }
+.salary-input-row {
+    flex-direction: column;
+    }
 }
 
 .filter-select:has(option[value=""]:checked) {
@@ -225,4 +231,58 @@ button:active {
     width: 100%;
     height: 360px;
     margin-top: 12px;
+}
+.analytics-link{
+display: inline-flex;
+padding: 10px 14px;
+border: 1px solid #dbe1ea;
+border-radius: 8px;
+background-color: white;
+color: deepskyblue;
+text-decoration: none;
+font-weight: 600;
+}
+
+.analytics-link:hover {
+    background-color: #f0f9ff;
+    color: royalblue;
+}
+.preferences-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+
+.preferences-header .analytics-link {
+    display: flex;
+    align-items: center;
+    padding: 8px 18px;
+    border-color: #94a3b8;
+    font-size: 18px;
+}
+.site-footer {
+    max-width: 650px;
+    margin: 32px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid #dbe1ea;
+    text-align: center;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.site-footer p {
+    margin: 6px 0;
+}
+
+.site-footer a {
+    color: #1e3a8a;
+    text-underline-offset: 3px;
+}
+
+.site-footer a:hover {
+    color: royalblue;
 }

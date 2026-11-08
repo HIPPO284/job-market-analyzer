@@ -16,14 +16,19 @@
     <h1>Job Market Analyzer</h1>
     <p class="subtitle">Find jobs or internships based on your skills.</p>
     <main class="results-page">
-        <h2> Your preferences </h2>
+        <div class="preferences-header">
+            <h2>Your preferences</h2>
+            <a class="analytics-link" href="{{ url_for('analytics') }}">
+                Job Market Insights
+            </a>
+        </div>
         <form action="/hippo" method="post">
 
             <label for="skills"> Your skills:</label>
             <div class="skills-field">
                 <div id="selected-skills"></div>
 
-                <input id="skills" type="text" placeholder="Search a skill..." autocomplete="off">
+                <input id="skills" type="text" placeholder="Please enter skill names in English and select a suggestion." autocomplete="off">
             </div>
             <div id="skill-suggestions"></div>
 
@@ -81,15 +86,6 @@
                 <option value="doctoral"> Doctoral</option>
             </select>
 
-            <label for="experience_level"> Experience Level</label>
-            <select id="experience_level" name="experience_level" class="filter-select">
-                <option value="" selected>Any Experience Level</option>
-                <option value="entry"> Entry </option>
-                <option value="junior"> Junior </option>
-                <option value="intermediate"> Intermediate </option>
-                <option value="senior"> Senior </option>
-            </select>
-
             <label for="employment_type">Employment Type:</label>
             <select id="employment_type" name="employment_type" class="filter-select">
                 <option value="" selected>Any Employment Type</option>
@@ -102,5 +98,12 @@
 
         </form>
     </main>
+    <footer class="site-footer">
+        <nav>
+            <a href="{{ url_for('policies') }}"> Privacy Policy &amp; Terms of Use</a>
+        </nav>
+        <p>© 2026 Hippo. Job Market Analyzer.</p>
+        <p>Third-party content belongs to its respective owners.</p>
+    </footer>
 </body>
 </html>

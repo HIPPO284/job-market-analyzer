@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Job Market Analyzer market insights">
+    <title>Job Market Insights | Job Market Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_analytics.css') }}">
+</head>
+<body>
+    <header class="analytics-top">
+        <a class="back-to-search" href="{{ url_for('home') }}">Back to Search</a>
+    </header>
+
+    <main class="analytics-page">
+        <header class="analytics-title">
+            <h1>Job Market Insights</h1>
+            <p>Explore the job market represented in this local dataset.</p>
+        </header>
+
+        <section class="analytics-section">
+            <h2 id="overview-heading">Data Overview</h2>
+            <dl class="overview-grid">
+                <div>
+                    <dt>Total Jobs</dt>
+                    <dd>{{ analytics.job.overview.total_jobs }}</dd>
+                </div>
+                <div>
+                    <dt>Companies</dt>
+                    <dd>{{ analytics.job.overview.companies}}</dd>
+                </div>
+                <div>
+                    <dt>Countries</dt>
+                    <dd>{{analytics.job.overview.countries}}</dd>
+                </div>
+                <div>
+                    <dt>Last Refreshed</dt>
+                    <dd>{{analytics.job.job_last_refreshed}}</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section class="analytics-section">
+            <div class="section-heading">
+                <h2 id="jobs-heading">Job Analytics</h2>
+                <p>Current patterns across the stored job listings.</p>
+            </div>
+
+            <div class="insight-columns">
+                <div>
+                    <h3>Top 5 Requested Skills</h3>
+                    <p>{{ analytics.job.top_skills | join(", ") }}</p>
+                </div>
+                <div>
+                    <h3>Top 5 Countries by Job Count</h3>
+                    <p>{{ analytics.job.top_countries | join(", ") }}</p>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <figure class="chart-slot">
+                    <figcaption>Workplace Type</figcaption>
+                    <img src="{{ url_for('analytics_chart', filename=analytics.job.charts.workplace_type) }}" alt="Workplace type distribution">
+                </figure>
+                <figure class="chart-slot">
+                    <figcaption>Employment Type</figcaption>
+                    <img src="{{ url_for('analytics_chart', filename=analytics.job.charts.employment_type) }}" alt="Employment type distribution">
+                </figure>
+                <figure class="chart-slot">
+                    <figcaption>Experience Level</figcaption>
+                    <img src="{{ url_for('analytics_chart', filename=analytics.job.charts.experience_level) }}" alt="Experience level distribution">
+                </figure>
+            </div>
+        </section>
+
+        <section class="analytics-section">
+            <div class="section-heading">
+                <h2 id="search-heading">Search Insights</h2>
+                <p>Aggregate preferences will appear after at least five searches.</p>
+            </div>
+
+            <div class="insight-columns">
+                <div>
+                    <h3>Top 5 Searched Skills</h3>
+                    {% if analytics.search.top_searched_skills %}
+                        <p>{{ analytics.search.top_searched_skills | join("; ") }}</p>
+                    {% else %}
+                        <p class="pending-data">Not enough search data yet.</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <h3>Top 5 Preferred Countries</h3>
+                    {% if analytics.search.top_preferred_countries %}
+                        <p>{{ analytics.search.top_preferred_countries | join("; ") }}</p>
+                    {% else %}
+                        <p class="pending-data">Not enough search data yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="analytics-footer">
+        Data sources: Greenhouse, Lever, and selected public company career pages discovered through web search.
+    </footer>
+</body>
+</html>

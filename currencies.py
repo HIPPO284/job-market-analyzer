@@ -15,8 +15,6 @@ def fetch_exchange_rates():
     except (requests.exceptions.RequestException, ValueError) as error:
         print(f"Could not get exchange rate: {error}")
         return None
-
-
     return data
 exchange_rates = fetch_exchange_rates()
 

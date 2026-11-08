@@ -1,0 +1,833 @@
+<!DOCTYPE html> <!-- 声明使用 HTML5 -->
+
+<html lang="en"> <!-- HTML 根元素；lang="en" 表示网页主要语言为 English -->
+
+<head>
+    <meta charset="UTF-8"> <!-- UTF-8 字符编码：支持英文、中文、emoji 等 -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 让页面宽度适应手机、平板、电脑等不同设备 -->
+
+    <meta name="description" content="A simple job market analyzer website for learning HTML.">
+    <!-- 网页描述，搜索引擎等可以读取 -->
+
+    <meta name="author" content="Student">
+    <!-- 网页作者信息 -->
+
+    <title>Job Market Analyzer</title> <!-- 浏览器标签页显示的标题 -->
+
+
+    <!-- ==================== CSS ==================== -->
+
+    <style>
+        /* <style> 里面写 CSS；CSS 负责网页的外观，而 HTML 负责结构 */
+
+        body {
+            font-family: Arial, sans-serif; /* 字体 */
+            background-color: #f4f4f4;      /* 背景颜色 */
+            color: #222222;                 /* 文字颜色 */
+            margin: 0;
+        }
+
+        header {
+            background-color: #1f4e79;
+            color: white;
+            padding: 20px;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+        }
+
+        main {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        section {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: darkblue;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #999999;
+            padding: 8px;
+            text-align: left;
+        }
+
+        footer {
+            background-color: #222222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+
+    <!--
+        实际项目中 CSS 通常会单独放进 styles_index.css：
+
+        <link rel="stylesheet" href="styles_index.css">
+
+        Flask 项目以后也会这样组织。
+    -->
+
+</head>
+
+
+<body> <!-- 网页真正显示给用户的内容 -->
+
+
+    <!-- ====================================================== -->
+    <!-- 1. PAGE STRUCTURE（页面结构）                          -->
+    <!-- ====================================================== -->
+
+
+    <header> <!-- header：页面或区域的顶部内容 -->
+
+        <h1>Job Market Analyzer</h1> <!-- h1：一级标题，通常是页面最主要标题 -->
+
+        <p>Find internships that match your skills and preferences.</p> <!-- p：paragraph 段落 -->
+
+
+        <nav> <!-- nav：Navigation，导航区域 -->
+
+            <a href="#jobs">Jobs</a> <!-- a：Anchor，超链接 -->
+            <a href="#skills">Skills</a>
+            <a href="#form">Preferences</a>
+            <a href="#table">Results</a>
+
+        </nav>
+
+    </header>
+
+
+    <main> <!-- main：页面最主要的内容；一个页面通常只有一个主要 main -->
+
+
+        <!-- ====================================================== -->
+        <!-- 2. HEADINGS / PARAGRAPH / HR / BR / COMMENT           -->
+        <!-- ====================================================== -->
+
+
+        <section id="introduction"> <!-- section：页面中的一个主题区域 -->
+
+            <h2>About This Project</h2> <!-- h2：二级标题 -->
+
+            <p>
+                This website is a simple version of a
+                <strong>Job Market Analyzer</strong>.
+            </p>
+
+            <p>
+                It combines HTML, CSS, Python, SQL and Flask.
+            </p>
+
+            <hr> <!-- hr：Horizontal Rule，表示主题之间的分隔 -->
+
+            <p>
+                Current goal:<br> <!-- br：Line Break，强制换行 -->
+                Summer 2027 Internship
+            </p>
+
+            <!-- HTML comment：注释不会直接显示在网页正文中 -->
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 3. TEXT FORMATTING（文本格式化）                        -->
+        <!-- ====================================================== -->
+
+
+        <section>
+
+            <h2>Text Formatting</h2>
+
+            <p><strong>Important information</strong></p>
+            <!-- strong：表示重要内容，默认通常显示为粗体 -->
+
+            <p><em>This text is emphasized.</em></p>
+            <!-- em：Emphasis，强调，默认通常显示为斜体 -->
+
+            <p><mark>This text is highlighted.</mark></p>
+            <!-- mark：高亮文字 -->
+
+            <p><small>This is smaller text.</small></p>
+            <!-- small：较小文字 -->
+
+            <p><del>Old requirement</del></p>
+            <!-- del：Deleted text，删除的内容 -->
+
+            <p><ins>New requirement</ins></p>
+            <!-- ins：Inserted text，新加入的内容 -->
+
+            <p>H<sub>2</sub>O</p>
+            <!-- sub：Subscript，下标 -->
+
+            <p>x<sup>2</sup></p>
+            <!-- sup：Superscript，上标 -->
+
+            <p>Python uses <code>print()</code> to display output.</p>
+            <!-- code：表示代码 -->
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 4. LINKS（链接）                                       -->
+        <!-- ====================================================== -->
+
+
+        <section>
+
+            <h2>Useful Links</h2>
+
+            <p>
+                Visit
+                <a href="https://www.ualberta.ca/">
+                    University of Alberta
+                </a>
+            </p>
+
+            <!-- href：Hypertext Reference，指定链接地址 -->
+
+
+            <p>
+                <a href="https://www.python.org/"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Open Python Website
+                </a>
+            </p>
+
+            <!-- target="_blank"：在新标签页打开 -->
+            <!-- rel="noopener noreferrer"：新标签页链接常见的安全设置 -->
+
+
+            <p>
+                <a href="#form">Go to Preferences Form</a>
+            </p>
+
+            <!-- #form 表示跳转到 id="form" 的 HTML element -->
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 5. IMAGE（图像）                                       -->
+        <!-- ====================================================== -->
+
+
+        <section>
+
+            <h2>Job Market Image</h2>
+
+            <img
+                src="https://placehold.co/600x250?text=Job+Market+Analyzer"
+                alt="Job Market Analyzer placeholder image"
+                width="600"
+                height="250"
+            >
+
+            <!-- img：Image -->
+            <!-- src：图片来源 -->
+            <!-- alt：图片无法显示时的替代文字，也有 Accessibility 作用 -->
+            <!-- width / height：图片尺寸 -->
+            <!-- img 没有 </img> closing tag -->
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 6. LISTS（列表）                                       -->
+        <!-- ====================================================== -->
+
+
+        <section id="skills">
+
+            <h2>Skills</h2>
+
+
+            <h3>Technical Skills</h3> <!-- h3：三级标题 -->
+
+            <ul> <!-- ul：Unordered List，无序列表 -->
+
+                <li>Python</li> <!-- li：List Item -->
+                <li>SQL</li>
+                <li>HTML</li>
+                <li>Java</li>
+
+            </ul>
+
+
+            <h3>Learning Order</h3>
+
+            <ol> <!-- ol：Ordered List，有序列表 -->
+
+                <li>Python</li>
+                <li>SQL</li>
+                <li>HTML and CSS</li>
+                <li>Flask</li>
+
+            </ol>
+
+
+            <h3>Terminology</h3>
+
+            <dl> <!-- dl：Description List，描述列表 -->
+
+                <dt>HTML</dt> <!-- dt：Description Term -->
+                <dd>Defines the structure of a webpage.</dd> <!-- dd：Description -->
+
+                <dt>CSS</dt>
+                <dd>Controls the appearance of a webpage.</dd>
+
+                <dt>JavaScript</dt>
+                <dd>Adds behaviour and interaction.</dd>
+
+            </dl>
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 7. DIV / SPAN / ELEMENT NESTING（区块与嵌套）          -->
+        <!-- ====================================================== -->
+
+
+        <section id="jobs">
+
+            <h2>Job Example</h2>
+
+
+            <div> <!-- div：通用 Block Container，用来组合一大块内容 -->
+
+                <h3>Software Developer Intern</h3>
+
+                <p>Company: Example Tech</p>
+
+                <p>
+                    Location:
+                    <span class="highlight">Edmonton</span>
+                </p>
+
+                <!-- span：通用 Inline Container，只包住一小段内容 -->
+                <!-- class="highlight"：给 CSS / JavaScript 一个可以找到它的名字 -->
+
+                <p>Salary: $60,000</p>
+
+            </div>
+
+
+            <!--
+                div 通常是一整块区域。
+                span 通常只是文字中的一小部分。
+            -->
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 8. BLOCK / INLINE ELEMENTS（元素分类）                  -->
+        <!-- ====================================================== -->
+
+
+        <section>
+
+            <h2>Element Types</h2>
+
+            <p>
+                常见 Block-level elements：
+                div, p, h1-h6, section, header, main, footer, table, form
+            </p>
+
+            <p>
+                常见 Inline elements：
+                span, a, strong, em, code
+            </p>
+
+            <!--
+                Block element：
+                默认通常占据一整行。
+
+                Inline element：
+                默认通常只占内容本身所需要的宽度。
+
+                注意：
+                这是初学 HTML/CSS 常用分类方式。
+                更严格来说 display 行为最终由 CSS 决定。
+            -->
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 9. COLORS + CSS                                        -->
+        <!-- ====================================================== -->
+
+
+        <section>
+
+            <h2>HTML and CSS</h2>
+
+
+            <p style="color: red;">
+                This text uses inline CSS.
+            </p>
+
+            <!-- style attribute：直接给一个 element 写 CSS -->
+
+
+            <p style="color: #008000;">
+                Hexadecimal color example.
+            </p>
+
+            <!-- #008000：Hex Color -->
+
+
+            <p style="color: rgb(0, 0, 255);">
+                RGB color example.
+            </p>
+
+            <!-- rgb(red, green, blue) -->
+
+
+            <p style="background-color: lightyellow;">
+                Background color example.
+            </p>
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 10. TABLE（表格）                                      -->
+        <!-- ====================================================== -->
+
+
+        <section id="table">
+
+            <h2>Internship Results</h2>
+
+
+            <table> <!-- table：整个表格 -->
+
+                <caption>Example Internship Data</caption>
+                <!-- caption：表格标题 -->
+
+
+                <thead> <!-- Table Head -->
+
+                    <tr> <!-- tr：Table Row，一行 -->
+
+                        <th>Company</th> <!-- th：Table Header Cell -->
+                        <th>Position</th>
+                        <th>Location</th>
+                        <th>Salary</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody> <!-- Table Body -->
+
+                    <tr>
+
+                        <td>Example Tech</td> <!-- td：Table Data Cell -->
+                        <td>Software Intern</td>
+                        <td>Edmonton</td>
+                        <td>$60,000</td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>Data Corp</td>
+                        <td>Data Analyst Intern</td>
+                        <td>Toronto</td>
+                        <td>$65,000</td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>AI Labs</td>
+                        <td>AI Intern</td>
+                        <td>Vancouver</td>
+                        <td>$70,000</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 11. FORM（表单）                                       -->
+        <!-- ====================================================== -->
+
+
+        <section id="form">
+
+            <h2>Job Preferences</h2>
+
+
+            <form action="#" method="post">
+                <!-- form：收集用户输入 -->
+                <!-- action：数据提交到哪里 -->
+                <!-- method：提交方式，常见 GET / POST -->
+
+
+                <fieldset> <!-- fieldset：把相关输入组合起来 -->
+
+                    <legend>Basic Preferences</legend>
+                    <!-- legend：fieldset 的标题 -->
+
+
+                    <label for="name">Name:</label>
+                    <!-- label：输入框的文字说明；for 对应 input 的 id -->
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                    <!-- type="text"：普通文字输入 -->
+                    <!-- id：这个 element 在页面中的唯一标识 -->
+                    <!-- name：提交给服务器的数据字段名 -->
+                    <!-- placeholder：输入框中的提示 -->
+                    <!-- required：必须填写 -->
+
+
+                    <br><br>
+
+
+                    <label for="email">Email:</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="example@email.com"
+                    >
+
+                    <!-- type="email"：Email 输入 -->
+
+
+                    <br><br>
+
+
+                    <label for="salary">Minimum Salary:</label>
+
+                    <input
+                        type="number"
+                        id="salary"
+                        name="salary"
+                        min="0"
+                    >
+
+                    <!-- type="number"：数字输入 -->
+                    <!-- min="0"：最小值为 0 -->
+
+
+                    <br><br>
+
+
+                    <label for="location">Preferred Location:</label>
+
+                    <select id="location" name="location">
+                        <!-- select：下拉菜单 -->
+
+                        <option value="edmonton">Edmonton</option>
+                        <option value="calgary">Calgary</option>
+                        <option value="toronto">Toronto</option>
+                        <option value="vancouver">Vancouver</option>
+
+                    </select>
+
+                    <!-- option：下拉菜单中的一个选项 -->
+
+
+                    <br><br>
+
+
+                    <p>Job Type:</p>
+
+                    <input
+                        type="radio"
+                        id="internship"
+                        name="job_type"
+                        value="internship"
+                    >
+
+                    <label for="internship">Internship</label>
+
+
+                    <input
+                        type="radio"
+                        id="part_time"
+                        name="job_type"
+                        value="part_time"
+                    >
+
+                    <label for="part_time">Part-Time</label>
+
+                    <!-- radio：通常用于多个选项中选择一个 -->
+                    <!-- 相同 name="job_type" 让它们属于同一组选项 -->
+
+
+                    <br><br>
+
+
+                    <input
+                        type="checkbox"
+                        id="remote"
+                        name="remote"
+                    >
+
+                    <label for="remote">Remote jobs accepted</label>
+
+                    <!-- checkbox：复选框 -->
+
+
+                    <br><br>
+
+
+                    <label for="skills-input">Skills:</label>
+
+                    <textarea
+                        id="skills-input"
+                        name="skills"
+                        rows="4"
+                        cols="40"
+                        placeholder="Python, SQL, Java..."
+                    ></textarea>
+
+                    <!-- textarea：多行文字输入 -->
+
+
+                    <br><br>
+
+
+                    <button type="submit">Search Jobs</button>
+                    <!-- submit button：提交 form -->
+
+                    <button type="reset">Reset</button>
+                    <!-- reset：重置 form -->
+
+                </fieldset>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 12. IFRAME（框架）                                     -->
+        <!-- ====================================================== -->
+
+
+        <section>
+
+            <h2>Iframe Example</h2>
+
+
+            <iframe
+                srcdoc="
+                    <h2>Internship Preview</h2>
+                    <p>This content is inside an iframe.</p>
+                "
+                width="500"
+                height="150"
+                title="Internship preview">
+            </iframe>
+
+            <!--
+                iframe：
+                在当前网页里面嵌入另一个 HTML 页面/文档。
+
+                srcdoc：
+                这里直接提供 iframe 内部的 HTML。
+
+                实际网页也经常使用：
+                src='another-page.html'
+            -->
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 13. CHARACTER ENTITIES（字符实体）                      -->
+        <!-- ====================================================== -->
+
+
+        <section>
+
+            <h2>HTML Character Entities</h2>
+
+
+            <p>&lt; means less than.</p>
+            <!-- &lt; 显示 < -->
+
+
+            <p>&gt; means greater than.</p>
+            <!-- &gt; 显示 > -->
+
+
+            <p>Python &amp; SQL</p>
+            <!-- &amp; 显示 & -->
+
+
+            <p>&copy; 2026 Job Market Analyzer</p>
+            <!-- &copy; 显示 © -->
+
+
+            <p>Hello&nbsp;&nbsp;&nbsp;World</p>
+            <!-- &nbsp; = Non-Breaking Space，固定空格 -->
+
+
+            <!--
+                为什么需要 entity？
+
+                因为 < > & 等字符本身在 HTML 语法里有特殊意义。
+            -->
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 14. ARTICLE / ASIDE / SEMANTIC HTML                    -->
+        <!-- ====================================================== -->
+
+
+        <section>
+
+            <h2>Job Market News</h2>
+
+
+            <article> <!-- article：可以独立存在的一块内容 -->
+
+                <h3>Software Internship Market</h3>
+
+                <p>
+                    Python and SQL are commonly used skills in
+                    software and data-related roles.
+                </p>
+
+            </article>
+
+
+            <aside> <!-- aside：补充信息、侧边信息 -->
+
+                <p>
+                    Tip: Continue building projects while learning.
+                </p>
+
+            </aside>
+
+        </section>
+
+
+
+        <!-- ====================================================== -->
+        <!-- 15. JAVASCRIPT / SCRIPT                                -->
+        <!-- ====================================================== -->
+
+
+        <section>
+
+            <h2>JavaScript Example</h2>
+
+
+            <p id="message">
+                Click the button to change this text.
+            </p>
+
+
+            <button type="button" id="change-button">
+                Change Message
+            </button>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ====================================================== -->
+    <!-- FOOTER                                                 -->
+    <!-- ====================================================== -->
+
+
+    <footer> <!-- footer：页面底部信息 -->
+
+        <p>&copy; 2026 Job Market Analyzer</p>
+
+    </footer>
+
+
+
+    <!-- ====================================================== -->
+    <!-- JAVASCRIPT                                             -->
+    <!-- ====================================================== -->
+
+
+    <script>
+        // <script> 里面可以写 JavaScript。
+        // JavaScript 负责网页的行为和交互。
+
+
+        const button = document.getElementById("change-button");
+        // 找到 id="change-button" 的 HTML element。
+
+
+        const message = document.getElementById("message");
+        // 找到 id="message" 的 HTML element。
+
+
+        button.addEventListener("click", function () {
+            // 当用户点击 button 时执行这个 function。
+
+            message.textContent = "JavaScript changed the webpage!";
+            // 修改网页中文字。
+        });
+    </script>
+
+
+</body>
+
+</html>

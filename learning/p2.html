@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Job Market Analyzer">
+    <meta name="author" content="Student">
+
+    <title>Job Market Analyzer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Job Market Analyzer</h1>
+        <p>Find internships that match your skills.</p>
+
+        <nav>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#jobs">Jobs</a>
+            <a href="#results">Results</a>
+            <a href="#form">Preferences</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="about">
+            <h2>About</h2>
+
+            <p>This is a <strong>Job Market Analyzer</strong>.</p>
+
+            <p>
+                Current Goal:<br>
+                Summer 2027 Internship
+            </p>
+
+            <hr>
+
+            <p><em>Emphasized text</em></p>
+            <p><mark>Highlighted text</mark></p>
+            <p><small>Small text</small></p>
+            <p><del>Old text</del></p>
+            <p><ins>New text</ins></p>
+            <p>H<sub>2</sub>O</p>
+            <p>x<sup>2</sup></p>
+            <p>Python uses <code>print()</code>.</p>
+        </section>
+
+        <section id="skills">
+            <h2>Skills</h2>
+
+            <h3>Technical Skills</h3>
+
+            <ul>
+                <li>Python</li>
+                <li>SQL</li>
+                <li>HTML</li>
+                <li>Java</li>
+            </ul>
+
+            <h3>Learning Order</h3>
+
+            <ol>
+                <li>Python</li>
+                <li>SQL</li>
+                <li>HTML</li>
+                <li>Flask</li>
+            </ol>
+        </section>
+
+        <section id="jobs">
+            <h2>Jobs</h2>
+
+            <div>
+                <h3>Software Developer Intern</h3>
+                <p>Company: Example Tech</p>
+                <p>Location: <span>Edmonton</span></p>
+                <p>Salary: $60,000</p>
+            </div>
+
+            <img
+                src="job-image.jpg"
+                alt="Job Market"
+                width="500"
+            >
+
+            <p>
+                <a href="https://example.com" target="_blank">
+                    View Job
+                </a>
+            </p>
+        </section>
+
+        <section id="results">
+            <h2>Results</h2>
+
+            <table>
+                <caption>Internship Results</caption>
+
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Position</th>
+                        <th>Location</th>
+                        <th>Salary</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Example Tech</td>
+                        <td>Software Intern</td>
+                        <td>Edmonton</td>
+                        <td>$60,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="form">
+            <h2>Preferences</h2>
+
+            <form action="#" method="post">
+
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+
+                <label for="salary">Minimum Salary:</label>
+                <input type="number" id="salary" name="salary">
+
+                <label for="location">Location:</label>
+                <select id="location" name="location">
+                    <option value="edmonton">Edmonton</option>
+                    <option value="calgary">Calgary</option>
+                    <option value="toronto">Toronto</option>
+                </select>
+
+                <input type="checkbox" id="remote" name="remote">
+                <label for="remote">Remote</label>
+
+                <textarea
+                    id="skills-input"
+                    name="skills"
+                    placeholder="Python, SQL, Java"
+                ></textarea>
+
+                <button type="submit">Search</button>
+                <button type="reset">Reset</button>
+
+            </form>
+        </section>
+
+        <section>
+            <h2>Extra Content</h2>
+
+            <article>
+                <h3>Job Market News</h3>
+                <p>Internship market information.</p>
+            </article>
+
+            <aside>
+                <p>Extra information.</p>
+            </aside>
+
+            <iframe
+                src="another-page.html"
+                width="500"
+                height="200"
+                title="Preview">
+            </iframe>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Job Market Analyzer</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

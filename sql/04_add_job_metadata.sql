@@ -18,3 +18,6 @@ ALTER TABLE jobs
     ADD COLUMN salary_period VARCHAR(10) NULL,
     ADD COLUMN working_hours_per_week DECIMAL(5,2) NULL,
     ADD COLUMN working_days_per_week DECIMAL(5,2) NULL;
+
+DELETE FROM job_skills WHERE job_id = 11152 AND skill_id = 2032;
+DELETE FROM skills WHERE skill_id = 2032;

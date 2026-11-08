@@ -5,10 +5,11 @@ const selectedSkillIds = new Set();
 let timer;
 userInputSkill.addEventListener("input", function(){
     clearTimeout(timer);
+    const delay = userInputSkill.value.trim().length === 1 ? 400 : 300;
     timer = setTimeout(async function(){
         const skillText = userInputSkill.value.trim();
 
-        if (skillText.length < 2){
+        if (skillText.length === 0){
             return;
         }
 
@@ -62,7 +63,7 @@ userInputSkill.addEventListener("input", function(){
 
             suggestionsBox.appendChild(button);
         }
-    }, 300);
+    }, delay);
 });
 
 

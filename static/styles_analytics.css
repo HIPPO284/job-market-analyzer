@@ -1,0 +1,234 @@
+/* 所有元素 */
+* {
+    box-sizing: border-box; /* 宽高包含内边距和边框 */
+}
+
+/* 整个页面 */
+body {
+    margin: 0; /* 清除浏览器默认外边距 */
+    padding: 32px 24px 40px; /* 页面内边距：上、左右、下 */
+    background: floralwhite; /* 页面背景 */
+    color: #1f2937; /* 默认文字颜色 */
+    font-family: Arial, Helvetica, sans-serif; /* 字体备选顺序 */
+}
+
+/* 顶部、主体、页脚共用的内容宽度 */
+.analytics-top,
+.analytics-page,
+.analytics-footer {
+    width: 100%; /* 小屏占满可用宽度 */
+    max-width: 1080px; /* 大屏限制最大阅读宽度 */
+    margin-right: auto; /* 右侧自动留白 */
+    margin-left: auto; /* 配合右侧实现水平居中 */
+}
+
+/* 顶部返回入口 */
+.analytics-top {
+    display: flex; /* 使用弹性布局 */
+    justify-content: flex-end; /* 子元素靠右 */
+    margin-bottom: 28px; /* 与下方标题分开 */
+}
+
+/* 返回按钮 */
+.back-to-search {
+    display: inline-flex; /* 行内按钮也能使用 Flex 对齐 */
+    align-items: center; /* 按钮文字上下居中 */
+    padding: 9px 16px;
+    border: 1px solid #94a3b8; /* 边框：粗细、样式、颜色 */
+    border-radius: 8px; /* 圆角 */
+    background: #ffffff;
+    color: #0ea5e9;
+    font-size: 16px; /* 字号 */
+    font-weight: 600; /* 半粗字体 */
+    text-decoration: none; /* 去掉链接下划线 */
+}
+
+/* 鼠标悬停时 */
+.back-to-search:hover {
+    border-color: #2563eb; /* 单独改变边框颜色 */
+    background: #f0f9ff;
+    color: #1d4ed8;
+}
+
+/* 页面标题区 */
+.analytics-title {
+    margin-bottom: 42px;
+    text-align: center; /* 区域内文字水平居中 */
+}
+
+.analytics-title h1 {
+    margin: 0 0 10px;
+    color: #1e3a8a;
+    font-size: 38px;
+}
+
+/* 三类辅助说明文字 */
+.analytics-title p,
+.section-heading p,
+.pending-data {
+    color: #64748b;
+}
+
+.analytics-title p {
+    margin: 0;
+    font-size: 18px;
+}
+
+/* 每一个主要统计区域 */
+.analytics-section {
+    padding: 20px 0;
+    border-top: 0; /* 不显示横向分隔线 */
+}
+
+.analytics-section h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 25px;
+}
+
+/* 区域标题与右侧说明 */
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline; /* 按文字基线对齐 */
+    gap: 24px; /* Flex 子元素之间的距离 */
+    margin-bottom: 22px;
+}
+
+.section-heading p {
+    margin: 0;
+    text-align: right;
+    font-style: italic; /* 斜体说明文字 */
+}
+
+/* 四项总览指标 */
+.overview-grid {
+    display: grid; /* 使用网格布局 */
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* 四列等宽，可安全缩小 */
+    margin: 14px 0 0;
+}
+
+.overview-grid > div {
+    min-height: 66px; /* 最小高度，数值区更整齐 */
+    padding: 4px 18px;
+    border-left: 0; /* 不显示竖向分隔线 */
+}
+
+/* 只选中第一项 */
+.overview-grid > div:first-child {
+    padding-left: 0;
+}
+
+.overview-grid dt {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.overview-grid dd {
+    margin: 8px 0 0;
+    color: #1e3a8a;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+/* 技能、国家与图表的网格容器 */
+.insight-columns,
+.chart-grid {
+    display: grid;
+    gap: 18px;
+}
+
+/* 两列并排 */
+.insight-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 16px;
+}
+
+/* 取消旧卡片外观 */
+.insight-columns > div,
+.chart-slot {
+    margin: 0;
+    padding: 8px 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent; /* 透明背景 */
+}
+
+.insight-columns h3,
+.chart-slot figcaption {
+    margin: 0;
+    color: #334155;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.pending-data,
+.chart-slot p {
+    margin: 14px 0 0;
+    font-size: 15px;
+}
+
+/* 三张图并排 */
+.chart-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.chart-slot {
+    min-height: 140px;
+    display: flex;
+    flex-direction: column; /* 图标题与内容上下排列 */
+    justify-content: center; /* 内容在图表区域上下居中 */
+    text-align: center;
+}
+
+.chart-slot p {
+    color: #94a3b8;
+}
+
+/* 页面底部数据来源 */
+.analytics-footer {
+    margin-top: 4px;
+    padding-top: 16px;
+    border-top: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5; /* 多行文字的行距 */
+}
+
+/* 屏幕宽度不超过 760px 时使用手机布局 */
+@media (max-width: 760px) {
+    body {
+        padding: 24px 16px 32px;
+    }
+
+    .analytics-title h1 {
+        font-size: 31px;
+    }
+
+    .section-heading {
+        display: block; /* 标题和说明改为上下排列 */
+    }
+
+    .section-heading p {
+        margin-top: 8px;
+        text-align: left;
+    }
+
+    .overview-grid,
+    .chart-grid,
+    .insight-columns {
+        grid-template-columns: 1fr; /* 所有网格收成一列 */
+    }
+
+    .overview-grid > div,
+    .overview-grid > div:first-child {
+        padding: 16px 0;
+        border-left: 0;
+    }
+}
+.chart-slot img {
+    display: block;
+    width: 100%;
+    height: auto;
+}

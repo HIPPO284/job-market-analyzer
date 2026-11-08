@@ -1,4 +1,9 @@
-const map = L.map("location-map").setView([34.258333, 108.928611], 3);
+const northAmericaBounds = [
+    [7, -168],
+    [73, -52],
+];
+
+const map = L.map("location-map").fitBounds(northAmericaBounds);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,

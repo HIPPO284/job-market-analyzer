@@ -1,9 +1,14 @@
-from flask import Flask, render_template, request, jsonify, abort
-from recommendation_service import clean_text_list, recommend_jobs, EDUCATION_RANKS
+from flask import Flask, render_template, request, jsonify, abort, send_from_directory
 from skill_normalizer import all_skills, find_skill_suggestions, return_suggestions
 from database import get_database_connection
-from routes import fetch_country_subdivision, fetch_nearby_places, fetch_country_id
 import math
+from search_repository import search_jobs, EDUCATION_RANKS
+from routes import build_location_options
+from analytics.search_event_logger import append_search_event
+from analytics.analytics_reader import load_analytics_data
+from pathlib import Path
+from urllib.parse import urlsplit
+
 app = Flask(__name__)    #Create Flask application object, the entire backend program.
 @app.route("/")
 def home():
@@ -14,7 +19,7 @@ def home():
 def api_skills():
     skill_text = request.args.get("q", "").strip()     # like a dictionary {"q" : value}
 
-    if len(skill_text) < 2 or len(skill_text) > 100:
+    if len(skill_text) == 0 or len(skill_text) > 100:
         return jsonify([])
 
     sorted_entries = find_skill_suggestions(skill_text,all_skills,)
@@ -36,58 +41,9 @@ def api_location():
         return jsonify({"error": "Please provide valid coordinates."}), 400
     if not (-90 <= latitude <= 90 and -180 <= longitude <= 180):
         return jsonify({"error": "Coordinates are out of range."}), 400
-    subdivision_data = fetch_country_subdivision(latitude, longitude)
-    nearby_data = fetch_nearby_places(latitude, longitude)
-    if subdivision_data is None or "status" in subdivision_data:
-        return jsonify({"error": "Could not fetch country and province"}), 502
-
-    if (not isinstance(nearby_data, dict) or "status" in nearby_data or not isinstance(nearby_data.get("geonames"), list)):
-        print("Nearby lookup failed:", nearby_data)
-        nearby_data = {"geonames": []}
-
-    country = subdivision_data.get("countryName")
-    country_code = subdivision_data.get("countryCode")
-    country_id = fetch_country_id(country_code)
-    if country_id is None:
-        return jsonify({"error": "Could not fetch country ID"}), 502
-
-    location_options.append({
-        "type": "country",
-        "name": country,
-        "id": country_id,
-        "country_id": country_id,
-    })
-
-    province = subdivision_data.get("adminName1")
-    province_id = subdivision_data.get("admin1geonameId")
-
-    if province is not None and province_id is not None:
-        location_options.append({
-            "type": "province",
-            "name": f"{province}, {country}",
-            "id": province_id,
-            "country_id": country_id,
-        })
-
-    for place in nearby_data["geonames"]:
-        if place.get("countryCode") != country_code:
-            continue
-
-        city = place["name"]
-        province = place.get("adminName1")
-        geoname_id = place["geonameId"]
-
-        parts = []
-        for value in (city, province, country):
-            if value:
-                parts.append(value)
-
-        location_options.append({
-            "type": "city",
-            "name": ", ".join(parts),
-            "id": geoname_id,
-            "country_id": country_id,
-        })
+    location_options = build_location_options(latitude, longitude)
+    if location_options is None:
+        return jsonify({"error": "Could not fetch location options"}), 502
 
     return jsonify(location_options)
 
@@ -106,6 +62,8 @@ def hippo():
 
     if any(value <= 0 or value > 2**31 - 1 for value in skill_ids):
         abort(400, description="Invalid skill ID.")
+    if not skill_ids:
+        abort(400, description="Please choose at least one skill.")
 
     skills = set()
 
@@ -147,9 +105,11 @@ def hippo():
     if location_country_id is not None and location_country_id <= 0:
         abort(400, description="Invalid location country ID.")
     workplace_type = request.form["workplace_type"]
-    experience_level = request.form["experience_level"]
     employment_type = request.form["employment_type"]
+    if employment_type not in {"", "internship", "full_time", "part_time"}:
+        abort(400, description="Invalid employment type.")
     education_level = request.form["education_level"]
+
     if education_level and education_level not in EDUCATION_RANKS:
         abort(400, description="Invalid education level.")
     salary_currency = request.form.get("salary_currency", "")
@@ -177,7 +137,7 @@ def hippo():
         "locations": locations,
         "minimum_salary": minimum_salary,
         "skills": skills,
-        "experience_levels": [experience_level],
+        "skill_ids": skill_ids,
         "workplace_types": [workplace_type],
         "employment_types": [employment_type],
         "education_level": education_level,
@@ -186,15 +146,56 @@ def hippo():
         "location_type": location_type,
         "location_country_id": location_country_id,
     }
-    recommendations = recommend_jobs(user_preferences)
+    search_result = search_jobs(user_preferences)
+    try:
+        append_search_event(user_preferences, search_result)
+    except (OSError, TypeError, ValueError) as error:
+        app.logger.warning("Could not save search analytics: %s", error) # %s,   把 error 的内容填到 %s 所在的位置
+    recommendations = search_result["jobs"]
+    for job in recommendations:        #   check if a real URL
+        try:
+            parsed_url = urlsplit(job["application_url"] or "")
+            if parsed_url.scheme not in {"http", "https"} or not parsed_url.hostname:
+                job["application_url"] = None
+        except ValueError:
+            job["application_url"] = None
     return render_template(
         "results.html",
         recommendations=recommendations,
-        user_preferences=user_preferences
+        total_matched_count=search_result["total_matched_count"],
+        displayed_count=search_result["displayed_count"],
+        display_limit=search_result["display_limit"],
     )
 
 # return f"Skills: {skills}; Locations: {locations}; Minimum Salary: {minimum_salary}; Workplace Type: {workplace_type}; Experience Level: {experience_level}; Employment Type: {employment_type}"
 
+@app.get("/analytics")
+def analytics():
+    analytics_data = load_analytics_data()
+
+    return render_template(                         # return 把生成好的页面发送给浏览器
+        "analytics.html",
+        analytics=analytics_data
+    )
+
+@app.get("/analytics/charts/<filename>")
+def analytics_chart(filename):
+    allowed_files = {
+        "workplace_type_analytics_chart.png",
+        "employment_type_analytics_chart.png",
+        "experience_level_analytics_chart.png"
+    }
+
+    if filename not in allowed_files:
+        abort(404)
+
+    chart_directory = Path(app.root_path) / "analytics"   # 是 Flask 应用代码所在的磁盘文件夹。E:\Project_1\analytics
+
+    return send_from_directory(chart_directory, filename)  # E:\Project_1\analytics
+
+@app.get("/policies")
+def policies():
+    return render_template("policies.html")
 
 if __name__ == "__main__":
     app.run(debug=True)       #Flask 的 .run() 方法。启动网页用的才是 app.run(...)。
